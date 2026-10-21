@@ -26,9 +26,40 @@
 #include <shobjidl.h>
 #include <stdio.h>
 #include <wchar.h>
+#include <stdarg.h>
 
 /* {7C1B5E2A-3F4D-4A8B-9E21-6D0A5B7C9F13} */
 DEFINE_GUID(CLSID_MakanOpen, 0x7c1b5e2a, 0x3f4d, 0x4a8b, 0x9e, 0x21, 0x6d, 0x0a, 0x5b, 0x7c, 0x9f, 0x13);
+
+
+/* ---------- optional diagnostics ----------
+ * Only when the file %TEMP%\makan-open.debug exists, steps are written to %TEMP%\makan-open.log.
+ * Normally nothing is written. (Create the .debug file by hand to find out why Explorer does not open a song.) */
+static void dbg(const char *fmt, ...) {
+  wchar_t flag[MAX_PATH + 32], logp[MAX_PATH + 32], tmp[MAX_PATH + 1];
+  char line[600];
+  va_list ap;
+  HANDLE f;
+  DWORD wrote = 0;
+  int n;
+  SYSTEMTIME st;
+  if (!GetTempPathW(MAX_PATH, tmp)) return;
+  _snwprintf(flag, MAX_PATH + 31, L"%smakan-open.debug", tmp);
+  flag[MAX_PATH + 31] = 0;
+  if (GetFileAttributesW(flag) == INVALID_FILE_ATTRIBUTES) return;
+  _snwprintf(logp, MAX_PATH + 31, L"%smakan-open.log", tmp);
+  logp[MAX_PATH + 31] = 0;
+  GetLocalTime(&st);
+  n = snprintf(line, 120, "%02d:%02d:%02d.%03d pid %lu ", st.wHour, st.wMinute, st.wSecond, st.wMilliseconds, GetCurrentProcessId());
+  va_start(ap, fmt);
+  n += vsnprintf(line + n, sizeof(line) - 4 - (size_t)n, fmt, ap);
+  va_end(ap);
+  line[n++] = '\r'; line[n++] = '\n';
+  f = CreateFileW(logp, FILE_APPEND_DATA, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+  if (f == INVALID_HANDLE_VALUE) return;
+  WriteFile(f, line, (DWORD)n, &wrote, NULL);
+  CloseHandle(f);
+}
 
 static LONG g_objects = 0;
 static LONG g_locks = 0;
@@ -114,8 +145,10 @@ static void open_selection(IDataObject *obj) {
   wchar_t tmp[MAX_PATH + 1], list[MAX_PATH + 64], exe[MAX_PATH + 1];
   HANDLE f;
   UINT n;
-  if (!obj) return;
-  if (!read_exe_path(exe, MAX_PATH)) return;
+  dbg("open_selection start");
+  if (!obj) { dbg("no data object"); return; }
+  if (!read_exe_path(exe, MAX_PATH)) { dbg("cannot read ExePath from the registry"); return; }
+  dbg("exe path read ok");
   if (!GetTempPathW(MAX_PATH, tmp)) return;
   _snwprintf(list, MAX_PATH + 63, L"%smakan-open-%lu-%lu.lst", tmp, GetCurrentProcessId(), GetTickCount());
   list[MAX_PATH + 63] = 0;
@@ -123,6 +156,7 @@ static void open_selection(IDataObject *obj) {
   if (f == INVALID_HANDLE_VALUE) return;
   n = write_selection(obj, f);
   CloseHandle(f);
+  dbg("paths written to list: %u", (unsigned)n);
   if (!n) { DeleteFileW(list); return; }
   {
     wchar_t cmd[2 * MAX_PATH + 128];
@@ -134,9 +168,11 @@ static void open_selection(IDataObject *obj) {
     _snwprintf(cmd, 2 * MAX_PATH + 127, L"\"%ls\" --open-list \"%ls\"", exe, list);
     cmd[2 * MAX_PATH + 127] = 0;
     if (CreateProcessW(NULL, cmd, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
+      dbg("started the app");
       CloseHandle(pi.hThread);
       CloseHandle(pi.hProcess);
     } else {
+      dbg("CreateProcess failed, error %lu", GetLastError());
       DeleteFileW(list);
     }
   }
@@ -173,6 +209,7 @@ static ULONG STDMETHODCALLTYPE dt_Release(IDropTarget *self) {
 }
 static HRESULT STDMETHODCALLTYPE dt_DragEnter(IDropTarget *self, IDataObject *obj, DWORD keys, POINTL pt, DWORD *effect) {
   (void)self; (void)obj; (void)keys; (void)pt;
+  dbg("DragEnter");
   if (effect) *effect = DROPEFFECT_COPY;
   return S_OK;
 }
@@ -187,6 +224,7 @@ static HRESULT STDMETHODCALLTYPE dt_DragLeave(IDropTarget *self) {
 }
 static HRESULT STDMETHODCALLTYPE dt_Drop(IDropTarget *self, IDataObject *obj, DWORD keys, POINTL pt, DWORD *effect) {
   (void)self; (void)keys; (void)pt;
+  dbg("Drop");
   open_selection(obj);
   if (effect) *effect = DROPEFFECT_COPY;
   return S_OK;
@@ -241,6 +279,7 @@ static MakanFactory g_factory = { { &g_cf_vtbl } };
 __declspec(dllexport) HRESULT STDAPICALLTYPE DllGetClassObject(REFCLSID rclsid, REFIID riid, void **ppv) {
   if (!ppv) return E_POINTER;
   *ppv = NULL;
+  dbg("DllGetClassObject called");
   if (!IsEqualCLSID(rclsid, &CLSID_MakanOpen)) return CLASS_E_CLASSNOTAVAILABLE;
   return cf_QueryInterface(&g_factory.iface, riid, ppv);
 }

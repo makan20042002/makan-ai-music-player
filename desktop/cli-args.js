@@ -123,8 +123,16 @@ function collectOpenTargets(args, deps) {
     const a = args[i];
     if (typeof a !== 'string') continue;
     let listFile = null;
-    if (a === '--open-list') { listFile = args[i + 1]; i++; }
+    if (a === '--open-list') {
+      // Electron / the app may put its own switches (for example --allow-file-access-from-files) between the
+      // option and its value: skip every "--switch" to find the list file
+      let j = i + 1;
+      while (j < args.length && typeof args[j] === 'string' && args[j].indexOf('--') === 0) j++;
+      listFile = args[j];
+      i = j;
+    }
     else if (a.indexOf('--open-list=') === 0) listFile = a.slice('--open-list='.length);
+    else if (LIST_NAME.test(pathMod.basename(unquote(a))) && isFile(unquote(a))) listFile = a;   // the helper's list file given alone
     if (listFile != null) {
       const lf = unquote(listFile);
       if (!lf || !isFile(lf)) continue;

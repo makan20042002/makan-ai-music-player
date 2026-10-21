@@ -47,6 +47,17 @@ test('--open-list: one path per line, files and folders, blank and bad lines ski
   assert.deepStrictEqual(collectOpenTargets([exe, '--open-list=' + lst]), [a, b, c, music, persian]);
   assert.ok(fs.existsSync(lst), 'a list file with another name is never deleted');
 });
+test('--open-list: app switches placed between the option and the file are skipped (the real Windows case)', () => {
+  const lst = path.join(tmp, 'makan-open-13404-169754343.lst');
+  fs.writeFileSync(lst, [a, b].join('\n') + '\n');
+  assert.deepStrictEqual(collectOpenTargets([exe, '--open-list', '--allow-file-access-from-files', lst]), [a, b]);
+  assert.ok(!fs.existsSync(lst), 'the helper list is removed after it is read');
+});
+test('--open-list: the helper list file is understood even when the option itself is missing', () => {
+  const lst = path.join(tmp, 'makan-open-777-42.lst');
+  fs.writeFileSync(lst, [b, a].join('\n') + '\n');
+  assert.deepStrictEqual(collectOpenTargets([exe, '--allow-file-access-from-files', lst]), [b, a]);
+});
 test('--open-list: Windows line ends, a BOM and a UTF-16 file are understood', () => {
   const crlf = path.join(tmp, 'crlf.lst');
   fs.writeFileSync(crlf, '\uFEFF' + a + '\r\n' + b + '\r\n', 'utf8');
@@ -94,6 +105,41 @@ test('a second launch (Electron second-instance argv) works the same way', () =>
     { id: 4, path: 'D:\\Other\\d.mp3' }, { id: 5, path: 'D:\\Music\\Rock Roll\\e.mp3' }, { id: 6, path: 'D:\\Music\\Pop\\f.mp3' }
   ];
   const ids = (l) => Array.from(l, (t) => t.id);
+  test('player: one opened song = whole library as the queue, starting at that song (case and slash style do not matter)', () => {
+    const r = Shell.planOpen(lib, ['d:/music/pop/C.FLAC']);
+    assert.strictEqual(r.found, true);
+    assert.strictEqual(r.tracks.length, lib.length);
+    assert.strictEqual(r.index, 2);
+  });
+  test('player: one opened song that is not in the library finds nothing (no other song is started)', () => {
+    const r = Shell.planOpen(lib, ['E:\\nowhere\\x.mp3']);
+    assert.strictEqual(r.found, false);
+    assert.strictEqual(r.tracks.length, 0);
+  });
+  test('player: planOpen with several files / a folder gives exactly those songs', () => {
+    assert.deepStrictEqual(ids(Shell.planOpen(lib, ['D:\\Other\\d.mp3', 'D:\\Music\\Rock\\a.mp3']).tracks), [4, 1]);
+    assert.deepStrictEqual(ids(Shell.planOpen(lib, ['D:\\Music\\Rock']).tracks), [1, 2]);
+  });
+  test('player: opening a song while another plays - scan busy/failed still plays it, old saved song is not put back', async () => {
+    const calls = { paused: 0, queue: null, keep: null, toasts: [] };
+    const shell = Object.create(Shell.prototype);
+    shell.engine = { pause() { calls.paused++; } };
+    shell.controller = { setQueue(t, i, play) { calls.queue = { n: t.length, i, play }; } };
+    shell.showToast = (m, k) => calls.toasts.push([m, k]);
+    shell.loadLibrary = (f, cb, keep) => { calls.keep = keep; cb(lib); };
+    sb.window.MakanDesktop = { scan: () => Promise.reject(new Error('scan busy')) };
+    shell.scanPaths(['D:\\Music\\Pop\\f.mp3'], true);
+    await new Promise((r) => setTimeout(r, 20));
+    assert.strictEqual(calls.keep, true);
+    assert.strictEqual(calls.paused, 1);
+    assert.deepStrictEqual(calls.queue, { n: lib.length, i: 5, play: true });
+    // a file that is not in the library: message, nothing started
+    calls.queue = null;
+    shell.scanPaths(['E:\\none.mp3'], true);
+    await new Promise((r) => setTimeout(r, 20));
+    assert.strictEqual(calls.queue, null);
+    assert.ok(calls.toasts.some((t) => /not in the library/.test(t[0])));
+  });
   test('player: several files are queued in the order they were opened', () => {
     assert.deepStrictEqual(ids(Shell.pickOpened(lib, ['D:\\Other\\d.mp3', 'D:\\Music\\Pop\\c.flac', 'D:\\Music\\Rock\\a.mp3'])), [4, 3, 1]);
   });

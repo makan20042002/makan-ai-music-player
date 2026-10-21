@@ -967,6 +967,7 @@ function createWindow() {
 
   // Handle files passed via command line
   const cliFiles = collectOpenTargets(process.argv);
+  logStartup('[OPEN] first launch, arguments: ' + JSON.stringify(process.argv).slice(0, 600) + ' -> ' + cliFiles.length + ' found');
   if (cliFiles.length > 0) {
     win.webContents.once('did-finish-load', () => {
       win.webContents.send('makan:open-files', cliFiles);
@@ -985,10 +986,12 @@ if (!gotLock) {
 } else {
 
   app.on('second-instance', (_event, argv) => {
+    logStartup('[OPEN] second launch, arguments: ' + JSON.stringify(argv).slice(0, 600));
     if (win) {
       if (win.isMinimized()) win.restore();
       win.focus();
       const files = collectOpenTargets(argv);
+      logStartup('[OPEN] songs/folders found in those arguments: ' + files.length + (files.length ? ' first: ' + files[0] : ''));
       if (files.length > 0) {
         win.webContents.send('makan:open-files', files);
       }

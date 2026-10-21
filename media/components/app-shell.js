@@ -658,44 +658,57 @@
     return out;
   };
 
+  /* What to play for the files / folders that were opened: { tracks, index, found }.
+   * One song: the whole library as the queue, starting at that song (so Next goes on through the library).
+   * Several files, a folder or a playlist: exactly those songs, in the order given.
+   * Nothing found: found is false (the player then says so; it never starts some other song). */
+  MakanAppShell.planOpen = function (tracks, paths) {
+    var list = Array.isArray(paths) ? paths : (paths ? [paths] : []);
+    var none = { tracks: [], index: 0, found: false };
+    if (!tracks || !tracks.length || !list.length) return none;
+    function norm(p) { return String(p || '').replace(/\//g, '\\').toLowerCase(); }
+    if (list.length === 1 && MakanAppShell.AUDIO_FILE.test(String(list[0]))) {
+      var want = norm(list[0]);
+      for (var i = 0; i < tracks.length; i++) {
+        if (tracks[i] && tracks[i].path && norm(tracks[i].path) === want) return { tracks: tracks, index: i, found: true };
+      }
+      return none;
+    }
+    var chosen = MakanAppShell.pickOpened(tracks, list);
+    return chosen.length ? { tracks: chosen, index: 0, found: true } : none;
+  };
+
   MakanAppShell.prototype.scanPaths = function (paths, playFirst) {
     var self = this;
     if (!window.MakanDesktop || !window.MakanDesktop.scan) return;
 
-    window.MakanDesktop.scan(paths, function (progress) {
-      // Progress reporting
-    }).then(function (summary) {
+    function afterScan(summary) {
+      // keepPlayback = playFirst: when a song is opened from outside, the old saved song must not be put back over it
       self.loadLibrary(null, function (tracks) {
         if (summary && (summary.added || summary.updated || summary.missing)) {
           self.showToast('Scan complete: ' + (summary.added || 0) + ' added, ' + (summary.updated || 0) + ' updated.', 'info');
         }
-        if (playFirst && tracks && tracks.length) {
-          var searchPaths = Array.isArray(paths) ? paths : (paths ? [paths] : []);
-          // several files, or a folder / playlist: play exactly what was opened, in the order it was given
-          var chosen = searchPaths.length > 1 || searchPaths.some(function (p) { return !MakanAppShell.AUDIO_FILE.test(String(p)); })
-            ? MakanAppShell.pickOpened(tracks, searchPaths) : [];
-          if (chosen.length) {
-            self.controller.setQueue(chosen, 0, true);
-            if (chosen.length > 1) self.showToast('Playing ' + chosen.length + ' songs', 'info');
-            return;
-          }
-          var foundIndex = 0;
-          if (searchPaths.length) {
-            for (var i = 0; i < tracks.length; i++) {
-              var tr = tracks[i];
-              var match = searchPaths.some(function (p) {
-                return tr.path && (tr.path === p || tr.path.toLowerCase().indexOf(p.toLowerCase()) !== -1);
-              });
-              if (match) {
-                foundIndex = i;
-                break;
-              }
-            }
-          }
-          self.controller.setQueue(tracks, foundIndex, true);
+        if (!playFirst) return;
+        var plan = MakanAppShell.planOpen(tracks, paths);
+        if (!plan.found) {
+          self.showToast('Could not open that file: it is not in the library.', 'error');
+          return;
         }
+        // stop what is playing, then start the opened song
+        try { if (self.engine && typeof self.engine.pause === 'function') self.engine.pause(); } catch (e) { /* the new song replaces it anyway */ }
+        self.controller.setQueue(plan.tracks, plan.index, true);
+        if (plan.tracks !== tracks && plan.tracks.length > 1) self.showToast('Playing ' + plan.tracks.length + ' songs', 'info');
+      }, !!playFirst);
+    }
+
+    var scanning;
+    try {
+      scanning = window.MakanDesktop.scan(paths, function (progress) {
+        // Progress reporting
       });
-    });
+    } catch (e) { scanning = Promise.reject(e); }
+    // even if the scan fails or is busy with another scan, the opened song is still looked up and played
+    Promise.resolve(scanning).then(afterScan, function () { afterScan(null); });
   };
 
   MakanAppShell.prototype.importFilesBrowserFallback = function (fileList) {
