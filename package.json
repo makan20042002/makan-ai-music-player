@@ -1,0 +1,86 @@
+{
+  "name": "makan-music-player",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MAKAN Music Player - Dependable Windows Music Player inspired by foobar2000 and Windows Media Player",
+  "scripts": {
+    "start": "node tests/support/static-server.js",
+    "test:unit": "node tests/support/test-playback-controller.js && node tests/support/test-lyrics.js && node tests/support/test-cli-args.js && node tests/support/test-open-targets.js && node tests/support/test-sleep-timer.js && node tests/support/test-thumbar.js && node tests/support/test-open-helper.js",
+    "test:db-scanner": "node tests/support/test-db.js && node tests/support/test-scanner.js && node tests/support/test-corrupt-files.js && node tests/support/test-virtualization.js && node tests/support/test-m3u.js && node tests/support/test-formats.js && node tests/support/test-large-library.js && node tests/support/test-position-flush.js && node tests/support/test-media-session.js && node tests/support/test-release-integrity.js",
+    "test:lyrics": "node tests/support/test-lyrics-ai.js && node tests/support/test-lyrics-style.js && node tests/support/test-lyrics-translate.js",
+    "test:dsp": "node tests/support/test-potplayer-sound.js && node tests/support/test-dsp-engine.js",
+    "test:v160": "node tests/support/test-sorting.js && node tests/support/test-search-syntax.js && node tests/support/test-lyrics-search.js && node tests/support/test-smart-playlists.js && node tests/support/test-tag-fixer.js && node tests/support/test-song-lookup.js && node tests/support/test-ai-playlist.js && node tests/support/test-key-store.js && node tests/support/test-listening-stats.js && node tests/support/test-waveform.js && node tests/support/test-sound-analysis.js && node tests/support/test-lyrics-words.js && node tests/support/test-study-words.js && node tests/support/test-automix.js && node tests/support/test-bpm-column.js && node tests/support/test-selection.js && node tests/support/test-queue-reorder.js && node tests/support/test-playlist-order.js && node tests/support/test-missing-recovery.js && node tests/support/test-resume-policy.js && node tests/support/test-replaygain.js && node tests/support/test-equalizer.js && node tests/support/test-potplayer-sound.js && node tests/support/test-dsp-engine.js && node tests/support/test-gapless-crossfade.js && node tests/support/test-folder-watcher.js && node tests/support/test-tray-mini.js && node tests/support/test-keyboard-shortcuts.js && node tests/support/test-shuffle-deterministic.js && node tests/support/test-durability-stress.js",
+    "test:v161": "node tests/support/test-v161-integrity.js",
+    "test:v162": "node tests/support/test-v162-runtime-wiring.js && node tests/support/test-desktop-startup-resets.js",
+    "test:v170": "node tests/support/test-true-shuffle-20.js",
+    "test:v171": "node tests/support/test-packaged-shuffle-lifecycle.js",
+    "test:v180": "node tests/support/test-native-pure-audio.js",
+    "test:v181": "node tests/support/test-v181-verification.js",
+    "test:v182": "node tests/support/test-v182-verification.js",
+    "test:mobile": "node tests/support/test-mobile-phone.js && node tests/support/test-mobile-models.js && node tests/support/test-mobile-report.js",
+    "test:ui": "playwright test tests/web/makan-ui.spec.js tests/web/makan-features.spec.js",
+    "test:electron": "electron tests/support/test-electron-ipc.js && electron tests/support/test-audio-playback.js",
+    "test:smoke": "node tests/support/test-packaged-smoke.js",
+    "test": "npm run test:unit && npm run test:db-scanner && npm run test:v160 && npm run test:v161 && npm run test:v162 && npm run test:v170 && npm run test:v180 && npm run test:v181 && npm run test:v182 && npm run test:mobile && npm run test:ui && npm run test:electron",
+    "test:all": "npm test && npm run test:smoke && npm run test:v171",
+    "desktop": "electron .",
+    "dist": "electron-builder --win portable",
+    "test:theme": "node tests/support/test-theme.js",
+    "dist:installer": "electron-builder --win nsis",
+    "dist:all": "electron-builder --win nsis portable",
+    "test:installer-config": "node tests/support/test-installer-config.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "electron": "^44.7.0",
+    "electron-builder": "^25.0.0"
+  },
+  "main": "desktop/main.js",
+  "author": "MAKAN",
+  "build": {
+    "appId": "tech.makanlab.musicplayer",
+    "productName": "MAKAN Music Player",
+    "directories": {
+      "output": "dist"
+    },
+    "asar": true,
+    "asarUnpack": [
+      "**/node_modules/sql.js/dist/sql-wasm.wasm",
+      "desktop/bin/**"
+    ],
+    "files": [
+      "desktop/**",
+      "docs/**",
+      "index.html",
+      "media/**",
+      "manifest.json",
+      "package.json",
+      "THIRD_PARTY_LICENSES.md"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "media/assets/icon.ico"
+    },
+    "portable": {
+      "artifactName": "MAKAN-Music-Player-v1-portable.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "MAKAN AI Music Player",
+      "deleteAppDataOnUninstall": false,
+      "artifactName": "MAKAN-Music-Player-v1-setup.exe",
+      "include": "build/installer.nsh"
+    }
+  },
+  "dependencies": {
+    "music-metadata": "^12.2.2",
+    "sql.js": "^1.15.0"
+  }
+}

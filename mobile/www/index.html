@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>MAKAN AI Music Player</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="media/player.css">
+  <link rel="stylesheet" href="mobile/mobile.css">
+</head>
+<body>
+  <!-- MAKAN Music Player Root Container -->
+  <div id="app"></div>
+
+  <!-- MAKAN Music Player Modular Components -->
+  <script src="media/components/theme.js"></script>
+  <script src="media/components/settings-schema.js"></script>
+  <script src="media/components/lyrics-style.js"></script>
+  <script src="media/components/icons.js"></script>
+  <script src="media/components/state.js"></script>
+  <script src="media/components/lyrics-parser.js"></script>
+  <script src="media/components/playback-controller.js"></script>
+  <script src="media/components/audio-backend-interface.js"></script>
+  <script src="media/components/audio-engine.js"></script>
+  <script src="media/components/tag-fixer.js"></script>
+  <script src="media/components/tag-ai.js"></script>
+  <script src="media/components/ai-playlist.js"></script>
+  <script src="media/components/waveform.js"></script>
+  <script src="media/components/sound-analysis.js"></script>
+  <script src="media/components/track-table.js"></script>
+  <script src="media/components/top-bar.js"></script>
+  <script src="media/components/library-sidebar.js"></script>
+  <script src="media/components/audio-visualizer.js"></script>
+  <script src="media/components/player-stage.js"></script>
+  <script src="media/lyrics-ai/media-decode.js"></script>
+  <script src="media/lyrics-ai/media-asr.js"></script>
+  <script src="media/lyrics-ai/media-cues.js"></script>
+  <script src="media/components/lyrics-ai.js"></script>
+  <script src="mobile/phone-models.js"></script>
+  <script src="media/components/lyrics-models.js"></script>
+  <script src="media/lyrics-ai/translate/tr-core.js"></script>
+  <script src="media/lyrics-ai/translate/tr-llm.js"></script>
+  <script src="media/lyrics-ai/translate/engine-free.js"></script>
+  <script src="media/lyrics-ai/translate/engine-ollama.js"></script>
+  <script src="media/lyrics-ai/translate/engine-keyed.js"></script>
+  <script src="media/lyrics-ai/translate/engine-chain.js"></script>
+  <script src="media/components/lyrics-translate.js"></script>
+  <script src="media/components/lyrics-words.js"></script>
+  <script src="media/components/lyrics-theatre.js"></script>
+  <script src="media/components/transport-dock.js"></script>
+  <script src="media/components/automix.js"></script>
+  <script src="media/components/sleep-timer.js"></script>
+  <script src="media/components/study-words.js"></script>
+  <script src="media/components/drawers.js"></script>
+  <script src="mobile/phone-report.js"></script>
+  <script src="mobile/sql-wasm.js"></script>
+  <script src="mobile/library-db.web.js"></script>
+  <script src="mobile/listening-stats.web.js"></script>
+  <script src="mobile/demo-media.js"></script>
+  <script src="mobile/phone-bridge.js"></script>
+  <script src="media/components/position-persistence.js"></script>
+  <script src="media/components/media-session.js"></script>
+  <script src="media/components/app-shell.js"></script>
+
+  <!-- Mount Application -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var appEl = document.getElementById('app');
+      if (appEl && window.MakanAppShell) {
+        window.makanApp = new window.MakanAppShell(appEl);
+        window.MakanApp = window.makanApp;
+      }
+    });
+  </script>
+  <script src="mobile/mobile-shell.js"></script>
+</body>
+</html>

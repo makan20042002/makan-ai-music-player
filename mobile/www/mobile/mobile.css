@@ -1,0 +1,149 @@
+/* MAKAN Music Player (Android) - phone layout. Everything is scoped to html.mk-mobile, so the Windows app is untouched. */
+html.mk-mobile, html.mk-mobile body { height: 100%; margin: 0; overscroll-behavior: none; -webkit-tap-highlight-color: transparent; }
+html.mk-mobile .mk-app-root { width: 100vw; height: 100vh; height: 100dvh; max-width: 100vw; max-height: 100dvh; padding-top: env(safe-area-inset-top); box-sizing: border-box; }
+
+/* no heavy blur on a phone (slow, and it breaks position: fixed inside panels) */
+html.mk-mobile .mk-topbar, html.mk-mobile .mk-library-panel, html.mk-mobile .mk-player-stage,
+html.mk-mobile .mk-lyrics-theatre, html.mk-mobile .mk-transport-dock { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; border-radius: 18px; }
+
+/* top bar: logo, search, theme, settings */
+html.mk-mobile .mk-topbar { margin: 6px 8px 0 !important; height: auto; min-height: 46px; padding: 4px 8px !important; gap: 8px; }
+html.mk-mobile .mk-topbar { justify-content: space-between; }
+html.mk-mobile .mk-topbar-left { min-width: 0 !important; flex: 0 0 auto; }
+html.mk-mobile .mk-topbar-right { flex: 0 0 auto; gap: 6px; }
+html.mk-mobile .mk-brand-logo { height: 34px; }
+/* the search box under the title does the same job */
+html.mk-mobile .mk-topbar-center { display: none !important; }
+html.mk-mobile .mk-win-controls, html.mk-mobile .mk-kbd, html.mk-mobile .mk-vis-btn, html.mk-mobile .mk-brand-text { display: none !important; }
+
+/* one screen at a time */
+html.mk-mobile .mk-main-content { display: block !important; grid-template-columns: 1fr !important; padding: 8px !important; gap: 0 !important; flex: 1 1 auto; min-height: 0; }
+html.mk-mobile .mk-col-library, html.mk-mobile .mk-col-stage, html.mk-mobile .mk-col-theatre { display: none !important; height: 100%; width: 100%; }
+html.mk-mobile #mk-app-root[data-mview="library"] .mk-col-library,
+html.mk-mobile #mk-app-root[data-mview="player"] .mk-col-stage,
+html.mk-mobile #mk-app-root[data-mview="lyrics"] .mk-col-theatre { display: flex !important; }
+html.mk-mobile .mk-library-panel, html.mk-mobile .mk-player-stage, html.mk-mobile .mk-lyrics-theatre { width: 100%; box-sizing: border-box; }
+html.mk-mobile .mk-player-stage { overflow-y: auto; }
+
+/* song list: title, artist, time only */
+html.mk-mobile .mk-vth:not([data-col="title"]):not([data-col="artist"]):not([data-col="duration"]),
+html.mk-mobile .mk-vtd:not(.mk-col-title):not(.mk-col-artist):not(.mk-col-duration) { display: none !important; }
+html.mk-mobile .mk-vtable-row { min-height: 48px; height: 48px; }
+html.mk-mobile .mk-vtd, html.mk-mobile .mk-vth { font-size: 14px; }
+html.mk-mobile .mk-vth[data-col="title"], html.mk-mobile .mk-vtd.mk-col-title { width: auto !important; flex: 1 1 0; min-width: 0; }
+html.mk-mobile .mk-vth[data-col="artist"], html.mk-mobile .mk-vtd.mk-col-artist { width: 32% !important; flex: 0 0 32%; }
+html.mk-mobile .mk-vth[data-col="duration"], html.mk-mobile .mk-vtd.mk-col-duration { width: 64px !important; flex: 0 0 64px; text-align: right; }
+html.mk-mobile .mk-vth-resizer { display: none !important; }
+html.mk-mobile .mk-vtable-footer { display: none !important; }
+html.mk-mobile .mk-lib-search-input { font-size: 15px; }
+
+/* menu sheet = the left menu, opened from the bottom bar */
+html.mk-mobile .mk-nav-list { display: none; }
+html.mk-mobile .mk-app-root.mk-sheet .mk-nav-list {
+  display: block; position: fixed; left: 10px; right: 10px; bottom: calc(var(--mk-mobile-bottom, 150px) + 6px); max-height: 68vh; overflow-y: auto; z-index: 320;
+  padding: 8px; border-radius: 18px; background: var(--mk-menu-bg, #14172e); box-shadow: 0 14px 40px rgba(0,0,0,0.55); border: 1px solid rgba(var(--mk-fg-rgb), 0.12);
+}
+html.mk-mobile .mk-app-root.mk-sheet .mk-nav-more[hidden] { display: block !important; }
+html.mk-mobile .mk-app-root.mk-sheet .mk-nav-more-btn { display: none !important; }
+html.mk-mobile .mk-app-root.mk-sheet .mk-nav-item { padding-top: 12px; padding-bottom: 12px; }
+#mk-msheet-scrim { display: none; }
+html.mk-mobile .mk-app-root.mk-sheet #mk-msheet-scrim { display: block; position: fixed; inset: 0; z-index: 310; background: rgba(0,0,0,0.5); }
+
+/* player bar */
+html.mk-mobile .mk-transport-dock { height: auto !important; min-height: 0 !important; margin: 6px 8px 0 !important; padding: 8px 10px !important; flex-wrap: wrap; gap: 4px; position: relative; z-index: 305; }
+html.mk-mobile .mk-dock-right { display: none !important; }
+html.mk-mobile .mk-dock-center { max-width: none; flex: 1 1 100%; gap: 6px; }
+html.mk-mobile .mk-dock-center .mk-controls-row { gap: 22px; }
+html.mk-mobile .mk-dock-center .mk-seekbar-row { width: 100%; }
+html.mk-mobile .mk-seek-track-wrapper.mk-has-wave { height: 34px; }
+/* small bar on the Songs screen: song + play button */
+html.mk-mobile #mk-app-root[data-mview="library"] .mk-transport-dock { flex-wrap: nowrap; align-items: center; }
+html.mk-mobile #mk-app-root[data-mview="library"] .mk-dock-left { flex: 1 1 auto; min-width: 0; width: auto; }
+html.mk-mobile #mk-app-root[data-mview="library"] .mk-dock-center { flex: 0 0 auto; width: auto; }
+html.mk-mobile #mk-app-root[data-mview="library"] .mk-seekbar-row,
+html.mk-mobile #mk-app-root[data-mview="library"] .mk-shuffle-btn,
+html.mk-mobile #mk-app-root[data-mview="library"] .mk-repeat-btn,
+html.mk-mobile #mk-app-root[data-mview="library"] .mk-prev-btn,
+html.mk-mobile #mk-app-root[data-mview="library"] .mk-dock-badges,
+html.mk-mobile #mk-app-root[data-mview="library"] .mk-dock-heart,
+html.mk-mobile #mk-app-root[data-mview="library"] .mk-dock-more { display: none !important; }
+/* on the Playing and Lyrics screens the song is already on screen */
+html.mk-mobile #mk-app-root:not([data-mview="library"]) .mk-dock-left { display: none !important; }
+
+/* bottom bar */
+#mk-mnav { display: none; }
+html.mk-mobile #mk-mnav { display: flex; gap: 4px; margin: 6px 8px calc(6px + env(safe-area-inset-bottom)); padding: 6px; border-radius: 20px; background: var(--mk-glass-bg); position: relative; z-index: 305; }
+html.mk-mobile #mk-mnav button { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; border: 0; background: transparent; color: var(--mk-text-dim); font-size: 11px; padding: 7px 0; border-radius: 14px; min-height: 48px; }
+html.mk-mobile #mk-mnav button.on { color: var(--mk-text-strong); background: rgba(var(--mk-fg-rgb), 0.12); }
+html.mk-mobile #mk-mnav .mk-mn-ico svg { width: 22px; height: 22px; }
+
+/* side panels fill the screen */
+html.mk-mobile .mk-drawer { width: 100vw !important; max-width: 100vw; bottom: 0 !important; }
+html.mk-mobile .mk-drawer-body { overflow-y: auto; }
+html.mk-mobile .mk-modal-box { max-width: 94vw; max-height: 88vh; overflow-y: auto; }
+html.mk-mobile .mk-modal-wide { width: 94vw !important; }
+html.mk-mobile .mk-toast-container { top: calc(60px + env(safe-area-inset-top)) !important; right: 10px !important; left: 10px; }
+
+/* lyrics screen: bigger touch targets */
+html.mk-mobile .mk-lyric-item { padding-top: 10px; padding-bottom: 10px; }
+html.mk-mobile .mk-lyrics-theatre .mk-lyric-tool-btn { width: 36px; height: 36px; }
+html.mk-mobile .mk-ptab { padding: 10px 6px; }
+html.mk-mobile .mk-word-pop { width: min(300px, calc(100vw - 20px)); }
+
+/* Playing screen: one vertical column: art, song info, lyrics, wave */
+html.mk-mobile .mk-player-stage { display: flex !important; flex-direction: column !important; align-items: stretch; gap: 8px; overflow: hidden; }
+html.mk-mobile .mk-player-stage > .mk-art-container { flex: 0 0 auto; align-self: center; width: 150px !important; height: 150px !important; max-width: 150px !important; max-height: 150px !important; aspect-ratio: auto !important; }
+html.mk-mobile .mk-player-stage > .mk-stage-meta { flex: 0 0 auto; width: 100% !important; text-align: center; align-items: center !important; margin: 0 !important; }
+html.mk-mobile .mk-player-stage > .mk-stage-lyrics-mount { flex: 1 1 0; min-height: 0; height: auto !important; }
+html.mk-mobile .mk-player-stage > .mk-stage-vis-mount { flex: 0 0 auto; }
+html.mk-mobile .mk-stage-title-row { flex-wrap: wrap; justify-content: center; gap: 8px; }
+html.mk-mobile .mk-stage-title { font-size: 19px !important; white-space: normal; }
+html.mk-mobile .mk-stage-actions { display: flex; justify-content: center; flex-direction: row !important; gap: 10px; }
+html.mk-mobile .mk-stage-badges { display: none !important; }
+
+/* extra rows at the end of the menu */
+html.mk-mobile #mk-mextra { margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(var(--mk-fg-rgb), 0.1); }
+html.mk-mobile .mk-mx-head { font-size: 11px; letter-spacing: 0.18em; color: var(--mk-text-dim); padding: 8px 12px 4px; }
+html.mk-mobile .mk-mx { display: block; width: 100%; text-align: left; border: 0; background: transparent; color: var(--mk-text-strong); font-size: 15px; padding: 12px; border-radius: 12px; min-height: 44px; }
+html.mk-mobile .mk-mx:active { background: rgba(var(--mk-fg-rgb), 0.1); }
+
+/* PC-only wording in the empty library */
+html.mk-mobile #mk-empty-add-files-btn, html.mk-mobile .mk-empty-hint { display: none !important; }
+html.mk-mobile .mk-app-root.mk-sheet .mk-nav-list { max-height: 74vh; }
+
+/* a window (settings, queue, ...) is open: it needs the whole screen, so the player bar and bottom bar step aside */
+html.mk-mobile #mk-app-root:has(.mk-drawer:not([hidden])) #mk-mnav,
+html.mk-mobile #mk-app-root:has(.mk-drawer:not([hidden])) .mk-transport-dock { display: none !important; }
+
+/* messages: at the bottom, readable, above everything */
+html.mk-mobile #mk-toast-container { position: fixed !important; top: auto !important; left: 12px !important; right: 12px !important; bottom: calc(env(safe-area-inset-bottom) + 150px) !important; z-index: 900 !important; align-items: center; }
+html.mk-mobile .mk-toast { background: #10162c !important; font-size: 14px !important; padding: 10px 14px !important; }
+
+/* ---- Settings on a phone: no PC / Windows parts ---- */
+html.mk-mobile [data-set-tab="windows"], html.mk-mobile [data-set-tab="shortcuts"],
+html.mk-mobile #mk-set-pane-windows, html.mk-mobile #mk-set-pane-shortcuts,
+html.mk-mobile #mk-set-pane-library label:has(#mk-set-folder-watching),
+html.mk-mobile #mk-setting-missing-btn, html.mk-mobile #mk-setting-open-folders-btn,
+html.mk-mobile #mk-set-pane-audio div:has(> label > #mk-set-audio-backend),
+html.mk-mobile #mk-set-pane-lyrics > div > span,
+html.mk-mobile .mk-tr-card label:has(#mk-set-tr-model), html.mk-mobile .mk-tr-card .mk-lm-btns:has(#mk-set-tr-check), html.mk-mobile #mk-set-tr-msg,
+html.mk-mobile .mk-tr-card label:has(#mk-set-tr-remember), html.mk-mobile .mk-tr-keyrow[data-key-id="cloud"],
+html.mk-mobile #mk-set-pane-advanced > div > div:first-child, html.mk-mobile #mk-set-pane-advanced > div > div:last-child { display: none !important; }
+
+/* the lyrics models come first, they are what people open this tab for */
+html.mk-mobile #mk-set-pane-lyrics > div { display: flex; flex-direction: column; }
+html.mk-mobile #mk-set-pane-lyrics #mk-set-lyrics-models { order: -1; }
+html.mk-mobile #mk-set-pane-lyrics .mk-tr-card { order: 1; }
+html.mk-mobile .mk-settings-nav .mk-btn-tab { padding: 10px 14px; white-space: nowrap; flex: 0 0 auto; }
+
+/* lyrics models: three clear cards */
+html.mk-mobile .mk-lm-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+html.mk-mobile .mk-lm-note { font-size: 13px; line-height: 1.45; }
+html.mk-mobile .mk-lm-row { padding: 14px; border-radius: 16px; gap: 10px; margin-top: 10px; background: rgba(var(--mk-fg-rgb), 0.04); }
+html.mk-mobile .mk-lm-head { font-size: 16px; gap: 8px; }
+html.mk-mobile .mk-lm-badge { font-size: 12px; padding: 3px 10px; }
+html.mk-mobile .mk-lm-bar { height: 8px; border-radius: 4px; }
+html.mk-mobile .mk-lm-msg { font-size: 13px; }
+html.mk-mobile .mk-lm-row .mk-lm-btns { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; }
+html.mk-mobile .mk-lm-row .mk-lm-btns .mk-btn { padding: 10px 12px; font-size: 13.5px; min-height: 44px; justify-content: center; text-align: center; border: 1px solid rgba(var(--mk-fg-rgb), 0.2); border-radius: 12px; }
+html.mk-mobile .mk-ph-check { padding: 8px 10px; border-radius: 10px; background: rgba(var(--mk-fg-rgb), 0.05); }

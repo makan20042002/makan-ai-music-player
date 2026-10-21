@@ -1,0 +1,21 @@
+node_modules/
+test-results/
+playwright-report/
+tests/fixtures/
+dist/
+
+# --- GitHub release (v1) ---
+_to_delete_generated/
+mobile/node_modules/
+mobile/android/app/build/
+mobile/android/build/
+mobile/android/.gradle/
+mobile/android/local.properties
+*.apk
+# FFmpeg runtime DLLs are large (98 MB): they ship inside the Releases download, not in the source repo
+desktop/bin/avcodec-*.dll
+desktop/bin/avformat-*.dll
+desktop/bin/avutil-*.dll
+desktop/bin/swresample-*.dll
+.env
+*.log

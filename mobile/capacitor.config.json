@@ -1,0 +1,6 @@
+{
+  "appId": "tech.makanlab.musicplayer",
+  "appName": "MAKAN Music Player",
+  "webDir": "www",
+  "android": { "allowMixedContent": true }
+}
