@@ -1,24 +1,28 @@
-MIT License
+MAKAN AI Music Player - License
 
-Copyright (c) 2026 Makan (https://makanlab.tech/)
+Copyright (c) 2026 Makan (https://makanlab.tech/). All rights reserved.
+Contact: makan20042002@gmail.com
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+1. FREE TO USE. You may download, install and use the compiled application
+   (MAKAN AI Music Player) free of charge, for personal or commercial listening.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+2. SHARING. You may share the unmodified installer or portable file free of
+   charge, as long as it is not changed and this license stays with it.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+3. SOURCE CODE. The source code in this repository is published so it can be
+   read and checked. You may NOT, without written permission from the author:
+   - copy, reuse or republish any part of the source code, design, text or
+     graphics in another project or product;
+   - modify, translate or create derivative works from the code or the app;
+   - sell, rent, sublicense or charge for the app or any part of it;
+   - remove or change the author's name, website or contact details.
 
-Third-party components (for example FFmpeg, LGPL) keep their own licenses;
-see THIRD_PARTY_LICENSES.md.
+4. THIRD-PARTY COMPONENTS (for example FFmpeg, LGPL) keep their own licenses.
+   Nothing here limits your rights under those licenses.
+   See THIRD_PARTY_LICENSES.md.
+
+5. NO WARRANTY. The software is provided "AS IS", without warranty of any
+   kind. The author is not liable for any claim, damage or loss arising from
+   its use.
+
+For permission requests or other use, contact makan20042002@gmail.com.
