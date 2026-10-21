@@ -41,3 +41,6 @@ npm test               # everything (20–30 minutes)
 - `HANDOFF.md` — architecture notes
 - `THIRD_PARTY_LICENSES.md` — open-source components (FFmpeg is LGPL)
 - The Android app in `mobile/` is an experiment and not part of v1.
+
+## License
+MIT — see `LICENSE`. Third-party components keep their own licenses (`THIRD_PARTY_LICENSES.md`).
