@@ -2425,7 +2425,7 @@ body.mk-mini-active {
 /* ==========================================================================
    Brand logo (media/assets/logo.png) and compact left menu
    ========================================================================== */
-.mk-brand-logo { height: 46px; width: auto; display: block; user-select: none; -webkit-user-drag: none; }
+.mk-brand-logo { height: 38px; width: auto; display: block; user-select: none; -webkit-user-drag: none; }
 .mk-sr-only { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 /* the logo art is light on dark, so on the light theme it sits on a small dark chip */
 :root[data-theme="light"] .mk-brand { background: linear-gradient(135deg, #0b0d2a, #1d1a55); padding: 3px 16px 3px 12px; border-radius: 16px; box-shadow: 0 6px 16px rgba(40, 70, 110, 0.25); }
@@ -2846,3 +2846,22 @@ body.mk-mini-active {
 .mk-sw-answer { min-height: 28px; margin: 12px 0; font-size: 20px; color: var(--mk-text); }
 .mk-sw-actions { display: flex; gap: 8px; justify-content: center; margin-top: 10px; }
 .mk-wp-row { flex-wrap: wrap; }
+
+/* Karaoke effect: the words of the playing line fill with colour as they are sung (word times are estimated) */
+.mk-fx-karaoke .mk-lyric-active .mk-lyric-orig .mk-w {
+  opacity: 1;
+  color: transparent;
+  background-image: linear-gradient(90deg, rgb(var(--mk-accent-rgb)) calc(var(--mk-wp, 0) * 100%), rgba(var(--mk-fg-rgb), 0.42) calc(var(--mk-wp, 0) * 100%));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.mk-fx-karaoke .mk-lyric-active .mk-lyric-orig .mk-w:dir(rtl) {
+  background-image: linear-gradient(270deg, rgb(var(--mk-accent-rgb)) calc(var(--mk-wp, 0) * 100%), rgba(var(--mk-fg-rgb), 0.42) calc(var(--mk-wp, 0) * 100%));
+}
+.mk-fx-karaoke .mk-lyric-active .mk-lyric-orig .mk-w.mk-w-done { --mk-wp: 1; }
+.mk-fx-karaoke .mk-lyric-active .mk-lyric-orig .mk-w.mk-w-now { text-decoration: none; }
+
+/* Speed: with moving colours (rainbow) only the playing line animates; the other lines keep their colours without moving.
+   Before, every visible line repainted all the time, which made the app hang. */
+.mk-lyrics-stage-view.mk-lyrics-gradmode .mk-lyric-item:not(.mk-lyric-active) .mk-lyric-orig,
+.mk-lyrics-stage-view.mk-lyrics-gradmode .mk-lyric-item:not(.mk-lyric-active) .mk-lyric-trans { animation: none; filter: none; }

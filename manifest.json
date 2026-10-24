@@ -1,7 +1,7 @@
 {
-  "name": "MAKAN AI Music Player",
+  "name": "MAKAN Music Player",
   "short_name": "MAKAN AI Music",
-  "description": "Dependable Windows Music Player inspired by foobar2000 and Windows Media Player",
+  "description": "A fast music player for large libraries",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#040914",

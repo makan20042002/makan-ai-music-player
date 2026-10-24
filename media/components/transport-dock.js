@@ -44,7 +44,7 @@
       '  <div class="mk-dock-left">' +
       '    <img class="mk-dock-art" id="mk-dock-art" src="data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'44\' height=\'44\' fill=\'%230b1220\'><rect fill-opacity=\'0\' width=\'44\' height=\'44\'/><circle cx=\'22\' cy=\'22\' r=\'12\' fill=\'%233b82f6\' fill-opacity=\'.22\'/></svg>" alt="Artwork">' +
       '    <div class="mk-dock-meta">' +
-      '      <div class="mk-dock-title" id="mk-dock-title">MAKAN AI Music Player</div>' +
+      '      <div class="mk-dock-title" id="mk-dock-title">MAKAN Music Player</div>' +
       '      <div class="mk-dock-artist" id="mk-dock-artist">No Track Selected</div>' +
       '      <div class="mk-dock-badges" style="display:flex;align-items:center;gap:6px;margin-top:3px;">' +
       '        <span class="mk-badge-playmode" id="mk-dock-playmode-badge" style="font-size:9.5px;padding:1px 5px;border-radius:3px;background:rgba(var(--mk-fg-rgb),0.04);color:var(--mk-text-dim);border:1px solid rgba(var(--mk-fg-rgb),0.08);" title="Playback Mode">Sequential</span>' +
@@ -133,7 +133,7 @@
     var heartEl = this.el.querySelector('#mk-dock-heart');
 
     if (!track) {
-      if (titleEl) titleEl.textContent = 'MAKAN AI Music Player';
+      if (titleEl) titleEl.textContent = 'MAKAN Music Player';
       if (artistEl) artistEl.textContent = 'No Track Selected';
       if (artEl) artEl.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44' fill='%230b1220'><rect fill-opacity='0' width='44' height='44'/><circle cx='22' cy='22' r='12' fill='%233b82f6' fill-opacity='.22'/></svg>";
       if (heartEl) heartEl.innerHTML = window.MakanIcons.heart(false);

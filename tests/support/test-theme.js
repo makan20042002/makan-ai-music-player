@@ -89,7 +89,7 @@ test('left menu: Studio shortcuts and More group, old items kept', () => {
 test('brand logo image is used, with readable name kept for screen readers', () => {
   const tb = read('media/components/top-bar.js');
   assert.ok(tb.indexOf('media/assets/logo.png') > 0 && tb.indexOf('mk-brand-logo') > 0);
-  assert.ok(tb.indexOf('mk-sr-only') > 0 && tb.indexOf('AI MUSIC') > 0);
+  assert.ok(tb.indexOf('aria-label="MAKAN Music Player"') > 0 && tb.indexOf('mk-brand-music">MUSIC<') > 0);
   assert.ok(fs.existsSync(path.join(ROOT, 'media/assets/logo.png')) && fs.statSync(path.join(ROOT, 'media/assets/logo.png')).size > 5000);
   assert.ok(css.indexOf('.mk-brand-logo') > 0 && css.indexOf('.mk-nav-studio-grid') > 0);
 });

@@ -52,6 +52,29 @@ t('wordsHtml: spans, escaping, spaces, no spaces for CJK', () => {
   assert.strictEqual(W.wordsHtml(''), '');
 });
 
+t('wordProgress: 0 before the word, grows while it is sung, 1 after, safe on bad input', () => {
+  const tl = W.timeline(['aaaa', 'bb'], 10, 20);
+  assert.strictEqual(W.wordProgress(tl, -1, 10), 0);
+  assert.strictEqual(W.wordProgress(tl, 0, tl[0].from), 0);
+  const mid = (tl[0].from + tl[0].to) / 2;
+  assert.ok(Math.abs(W.wordProgress(tl, 0, mid) - 0.5) < 1e-9);
+  assert.strictEqual(W.wordProgress(tl, 0, tl[0].to + 5), 1);
+  assert.strictEqual(W.wordProgress(tl, 0, tl[0].from - 5), 0);
+  assert.strictEqual(W.wordProgress([], 0, 1), 0);
+  assert.strictEqual(W.wordProgress(null, 0, 1), 0);
+  assert.strictEqual(W.wordProgress([{ from: 3, to: 3 }], 0, 4), 1);
+});
+
+t('karaoke effect is switched on: tile enabled, effect class applied, words forced on, css fills the sung word', () => {
+  const th = read('media/components/lyrics-theatre.js');
+  const tile = th.split('\n').find(l => l.indexOf("id: 'karaoke'") >= 0) || '';
+  assert.ok(tile && tile.indexOf('soon') < 0, 'karaoke tile is no longer "soon": ' + tile.slice(0, 80));
+  assert.ok(th.indexOf("'particle', 'karaoke'") > 0, 'karaoke is in the effect class list');
+  assert.ok(th.indexOf("lyricsEffect === 'karaoke'") > 0 && th.indexOf('--mk-wp') > 0, 'theatre paints the progress');
+  const css = read('media/player.css');
+  ['.mk-fx-karaoke .mk-lyric-active .mk-lyric-orig .mk-w', '--mk-wp', 'background-clip: text', ':dir(rtl)'].forEach(k => assert.ok(css.indexOf(k) > 0, 'css has ' + k));
+});
+
 t('wiring: script order, syntax list, test list, theatre uses it, no web addresses', () => {
   const html = read('index.html');
   assert.ok(html.indexOf('lyrics-words.js') > 0 && html.indexOf('lyrics-words.js') < html.indexOf('lyrics-theatre.js'));

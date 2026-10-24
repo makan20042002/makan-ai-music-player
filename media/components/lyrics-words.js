@@ -50,6 +50,14 @@
     return idx;
   }
 
+  /* how far (0..1) the word at index idx has been sung at time t: used to fill the word with colour (karaoke) */
+  function wordProgress(times, idx, t) {
+    if (!times || idx < 0 || !times[idx]) return 0;
+    var d = times[idx].to - times[idx].from;
+    if (!(d > 0)) return 1;
+    return Math.max(0, Math.min(1, (t - times[idx].from) / d));
+  }
+
   function escapeHtml(str) {
     return String(str == null ? '' : str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
@@ -62,5 +70,5 @@
     return words.map(function (w, i) { return '<span class="mk-w" data-wi="' + i + '">' + escapeHtml(w) + '</span>'; }).join(joiner);
   }
 
-  return { splitWords: splitWords, cleanWord: cleanWord, timeline: timeline, activeIndex: activeIndex, wordsHtml: wordsHtml, escapeHtml: escapeHtml };
+  return { splitWords: splitWords, cleanWord: cleanWord, timeline: timeline, activeIndex: activeIndex, wordProgress: wordProgress, wordsHtml: wordsHtml, escapeHtml: escapeHtml };
 });

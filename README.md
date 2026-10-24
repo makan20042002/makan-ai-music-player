@@ -1,4 +1,4 @@
-# MAKAN AI Music Player
+# MAKAN Music Player
 
 A fast, dependable **Windows** music player for big libraries (thousands of songs), built with Electron and plain JavaScript.
 Made by Makan — https://makanlab.tech/ — contact: makan20042002@gmail.com
@@ -11,10 +11,10 @@ Made by Makan — https://makanlab.tech/ — contact: makan20042002@gmail.com
 - 10-band equalizer, ReplayGain, gapless playback, crossfade
 - True shuffle (every song once per cycle), queue, playlists, mini player, tray, media keys
 - Sleep timer with a slow fade-out
-- Windows integration: right-click → Open with, "Play with MAKAN AI Music Player" on folders,
+- Windows integration: right-click → Open with, "Play with MAKAN Music Player" on folders,
   select thousands of files in Explorer and press Enter to open them all (like Windows Media Player),
   taskbar Previous / Play / Next buttons
-- Synced lyrics (LRC / SRT / VTT / ASS)
+- Synced lyrics (LRC / SRT / VTT / ASS) with a karaoke effect: the words fill with colour as they are sung (word timing is estimated from the line timing)
 
 ## Download
 Get the installer (`MAKAN-Music-Player-v1-setup.exe`) or the portable file (`MAKAN-Music-Player-v1-portable.exe`)

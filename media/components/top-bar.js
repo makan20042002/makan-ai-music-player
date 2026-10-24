@@ -26,9 +26,9 @@
     var html = '' +
       '<header class="mk-topbar" id="mk-topbar">' +
       '  <div class="mk-topbar-left">' +
-      '    <div class="mk-brand" aria-label="MAKAN AI MUSIC">' +
-      '      <img class="mk-brand-logo" id="mk-brand-logo" src="media/assets/logo.png" alt="Makan AI Music Player" draggable="false">' +
-      '      <span class="mk-brand-text mk-sr-only"><strong class="mk-brand-bold">MAKAN</strong> <span class="mk-brand-music">AI MUSIC</span></span>' +
+      '    <div class="mk-brand" aria-label="MAKAN Music Player">' +
+      '      <img class="mk-brand-logo" id="mk-brand-logo" src="media/assets/logo.png" alt="MAKAN Music Player" draggable="false">' +
+      '      <span class="mk-brand-text"><strong class="mk-brand-bold">MAKAN</strong> <span class="mk-brand-music">MUSIC</span></span>' +
       '    </div>' +
       '  </div>' +
       '  <div class="mk-topbar-center">' +

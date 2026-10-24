@@ -25,9 +25,9 @@ test('app files, icon and helper are packaged', () => {
 });
 test('brand: new visible name, library folder and exe name unchanged', () => {
   const r = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
-  assert.ok(r('media/components/top-bar.js').indexOf('AI MUSIC') > 0);
-  assert.ok(r('index.html').indexOf('<title>MAKAN AI Music Player</title>') > 0);
-  assert.strictEqual(pkg.build.nsis.shortcutName, 'MAKAN AI Music Player');
+  assert.ok(r('media/components/top-bar.js').indexOf('<strong class="mk-brand-bold">MAKAN</strong> <span class="mk-brand-music">MUSIC</span>') > 0);
+  assert.ok(r('index.html').indexOf('<title>MAKAN Music Player</title>') > 0);
+  assert.strictEqual(pkg.build.nsis.shortcutName, 'MAKAN Music Player');
   assert.ok(r('desktop/main.js').indexOf("path.join(app.getPath('appData'), 'MAKAN Music Player')") > 0, 'user data folder kept so the library is not lost');
   assert.strictEqual(pkg.build.productName, 'MAKAN Music Player');
 });

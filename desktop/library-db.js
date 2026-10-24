@@ -235,6 +235,7 @@ class MakanLibraryDb {
   }
 
   scheduleSave() {
+    this._allTracksCache = null;
     if (this._inTransaction) return;
     if (this._saveTimer) return;
     this._saveTimer = setTimeout(() => {
@@ -315,6 +316,7 @@ class MakanLibraryDb {
   }
 
   run(sql, params = []) {
+    this._allTracksCache = null;
     this.db.run(sql, params);
     if (!this._inTransaction) {
       this.scheduleSave();
@@ -322,6 +324,16 @@ class MakanLibraryDb {
   }
 
   /* ---------------- Folders Management ---------------- */
+
+  // Just the folder paths (no song counts). getFolders() counts songs per folder, which costs ~0.5 s with 13k songs.
+  getFolderPaths() {
+    return this.all('SELECT path FROM folders ORDER BY added_at ASC').map((f) => {
+      const canonical = path.resolve(f.path);
+      let exists = false;
+      try { exists = fs.existsSync(canonical); } catch (e) { exists = false; }
+      return { path: canonical, exists };
+    });
+  }
 
   getFolders() {
     const rows = this.all('SELECT * FROM folders ORDER BY added_at ASC');
@@ -585,6 +597,7 @@ class MakanLibraryDb {
   }
 
   setLastPosition(trackId, position, immediate = false) {
+    this._allTracksCache = null;
     this.db.run('UPDATE tracks SET last_position = ? WHERE id = ?', [position, trackId]);
     if (immediate) {
       this.flushSync();
@@ -615,6 +628,15 @@ class MakanLibraryDb {
   }
 
   getTracks(options = {}) {
+    // "All songs" is asked for many times and costs ~0.5 s on 13k songs: keep the last answer until something changes.
+    const plainAll = !options || Object.keys(options).length === 0;
+    if (plainAll && this._allTracksCache) return this._allTracksCache;
+    const result = this._getTracksUncached(options || {});
+    if (plainAll) this._allTracksCache = result;
+    return result;
+  }
+
+  _getTracksUncached(options = {}) {
     let sql = 'SELECT * FROM tracks';
     const conditions = [];
     const params = [];

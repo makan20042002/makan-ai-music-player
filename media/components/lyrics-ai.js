@@ -162,9 +162,34 @@
     var MT = root.MakanSpeech;
     if (!MT || !MT.decode || !MT.asr || !MT.cues) throw makeError('engine', 'Speech engine files are missing.');
     var ctrl = new AbortController();
+    this._cancelRelease();
     this.job = { ctrl: ctrl, trackId: track && track.id };
     if (!this.asr) this.asr = MT.asr.create({ libUrl: ENGINE_URL });
     return ctrl;
+  };
+
+  /* The speech model can take 3 GB of memory. After a job it is kept for a short while (in case the next song
+   * follows at once), then the whole worker is closed so Windows gets the memory back. */
+  var RELEASE_AFTER_MS = 30000;
+  MakanLyricsAI.prototype._cancelRelease = function () {
+    if (this._releaseTimer) { clearTimeout(this._releaseTimer); this._releaseTimer = null; }
+  };
+  MakanLyricsAI.prototype.releaseNow = function () {
+    this._cancelRelease();
+    var a = this.asr;
+    if (!a || this.job) return false;
+    this.asr = null;
+    try {
+      if (typeof a.terminate === 'function') a.terminate();
+      else if (typeof a.unload === 'function') a.unload();
+    } catch (e) { /* already gone */ }
+    return true;
+  };
+  MakanLyricsAI.prototype._scheduleRelease = function () {
+    var self = this;
+    this._cancelRelease();
+    this._releaseTimer = setTimeout(function () { self._releaseTimer = null; self.releaseNow(); }, RELEASE_AFTER_MS);
+    if (this._releaseTimer && typeof this._releaseTimer.unref === 'function') this._releaseTimer.unref();
   };
 
   function mapAsrError(e) {
@@ -215,6 +240,7 @@
       throw mapAsrError(e);
     } finally {
       this.job = null;
+      this._scheduleRelease();
     }
   };
 
@@ -265,6 +291,7 @@
       return { text: text, device: out.device || null, seconds: (Date.now() - t0) / 1000, clipSeconds: part.length / rate, lang: out.lang || null };
     } finally {
       this.job = null;
+      this._scheduleRelease();
     }
   };
 
@@ -361,11 +388,13 @@
     } finally {
       samples = null;
       this.job = null;
+      this._scheduleRelease();
     }
   };
 
   return {
     ENGINE_URL: ENGINE_URL, MODELS: MODELS, DEFAULT_MODEL: DEFAULT_MODEL, LANGS: LANGS,
+    RELEASE_AFTER_MS: RELEASE_AFTER_MS,
     cueOptions: cueOptions, modelByKey: modelByKey, onnxFiles: onnxFiles, statusFromKeys: statusFromKeys, expectedBytes: expectedBytes, CACHE_NAME: CACHE_NAME, lrcName: lrcName, buildLyrics: buildLyrics,
     MakanLyricsAI: MakanLyricsAI
   };

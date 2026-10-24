@@ -230,7 +230,7 @@
         if (err.code === 1) msg = 'Playback aborted by user';
         else if (err.code === 2) msg = 'Network error downloading audio';
         else if (err.code === 3) msg = 'Audio decoding failed (corrupt or unsupported format)';
-        else if (err.code === 4) msg = 'Audio format not supported by system';
+        else if (err.code === 4) msg = 'File not found or format not supported (is its drive connected?)';
       }
       self.lastError = msg;
       self.consecutiveFailures++;
@@ -257,7 +257,7 @@
         self.pause();
         self.state.setPlayState(false);
         self.state.emit('circuitBreakerTripped', {
-          message: 'Playback stopped: 5 consecutive tracks failed to play.'
+          message: 'Playback stopped: 5 consecutive tracks failed to play. If your music is on another drive, check that it is connected.'
         });
         return;
       }

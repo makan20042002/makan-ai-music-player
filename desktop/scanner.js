@@ -362,10 +362,30 @@ class FolderWatcher {
     }
   }
 
+  // Watch real folders only (not single files) and skip any folder already inside a watched parent.
+  static pickWatchRoots(paths) {
+    const dirs = [];
+    for (const raw of paths) {
+      const p = path.resolve(raw);
+      try { if (fs.statSync(p).isDirectory()) dirs.push(p); } catch (e) {}
+    }
+    const key = (p) => (process.platform === 'win32' ? p.toLowerCase() : p);
+    const unique = [...new Map(dirs.map(d => [key(d), d])).values()].sort((a, b) => a.length - b.length);
+    const roots = [];
+    for (const d of unique) {
+      const inside = roots.some((r) => {
+        const rel = path.relative(key(r), key(d));
+        return rel && !rel.startsWith('..') && !path.isAbsolute(rel);
+      });
+      if (!inside) roots.push(d);
+    }
+    return roots;
+  }
+
   syncWatchedFolders() {
     if (!this._enabled) return;
-    const folders = this.db.getFolders();
-    const activePaths = new Set(folders.filter(f => f.exists).map(f => path.resolve(f.path)));
+    const folders = typeof this.db.getFolderPaths === 'function' ? this.db.getFolderPaths() : this.db.getFolders();
+    const activePaths = new Set(FolderWatcher.pickWatchRoots(folders.filter(f => f.exists).map(f => f.path)));
 
     for (const [watchedPath, watcher] of this.watchers.entries()) {
       if (!activePaths.has(watchedPath)) {

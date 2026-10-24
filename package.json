@@ -2,7 +2,7 @@
   "name": "makan-music-player",
   "version": "1.0.0",
   "private": true,
-  "description": "MAKAN Music Player - Dependable Windows Music Player inspired by foobar2000 and Windows Media Player",
+  "description": "MAKAN Music Player - A fast music player for large libraries",
   "scripts": {
     "start": "node tests/support/static-server.js",
     "test:unit": "node tests/support/test-playback-controller.js && node tests/support/test-lyrics.js && node tests/support/test-cli-args.js && node tests/support/test-open-targets.js && node tests/support/test-sleep-timer.js && node tests/support/test-thumbar.js && node tests/support/test-open-helper.js",
@@ -73,7 +73,7 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "MAKAN AI Music Player",
+      "shortcutName": "MAKAN Music Player",
       "deleteAppDataOnUninstall": false,
       "artifactName": "MAKAN-Music-Player-v1-setup.exe",
       "include": "build/installer.nsh"

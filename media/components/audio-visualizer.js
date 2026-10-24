@@ -142,9 +142,17 @@
   MakanAudioVisualizer.prototype.startLoop = function () {
     var self = this;
 
-    function frame() {
-      self.draw();
+    // Draw only while the window is visible and music is playing (plus ~1 s to let the bars fall), at most ~30 times a second.
+    var lastDraw = 0, idle = 0;
+    function frame(now) {
       self.animId = requestAnimationFrame(frame);
+      if (typeof document !== 'undefined' && document.hidden) return;
+      var playing = !!(self.state && self.state.isPlaying);
+      idle = playing ? 0 : idle + 1;
+      if (idle > 60) return;
+      if (now - lastDraw < 32) return;
+      lastDraw = now;
+      self.draw();
     }
     this.animId = requestAnimationFrame(frame);
   };

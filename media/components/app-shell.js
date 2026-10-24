@@ -436,6 +436,10 @@
           self.controller.reconcileLibrary(self.state.tracks);
         }
 
+        // Show the songs at once. (Before, the list only filled in after the separate "counts" answer came back,
+        // so a slow or failed counts call left the list empty on first open.)
+        try { self.state.emit('libraryUpdated'); } catch (e) { /* the list will refresh on the next change */ }
+
         if (window.MakanDesktop.getCounts) {
           window.MakanDesktop.getCounts().then(function (counts) {
             if (counts) {
@@ -443,7 +447,7 @@
               self.state.playlistsCount = counts.totalPlaylists;
               self.state.emit('countsUpdated');
             }
-          });
+          }).catch(function () { /* the list is already shown; the numbers fix themselves later */ });
         }
 
         // keepPlayback: a folder-watcher refresh must never jump back to the old saved song
@@ -461,6 +465,9 @@
         } else if (typeof callback === 'function') {
           callback(self.state.tracks);
         }
+      }).catch(function () {
+        // reading the library failed: keep what is on screen and still let the caller carry on
+        if (typeof callback === 'function') callback(self.state.tracks);
       });
     } else if (typeof callback === 'function') {
       callback(self.state.tracks);
@@ -493,7 +500,7 @@
     // Unplayable track recovery toast notification
     this.state.on('playbackError', function (data) {
       var name = data.track ? (data.track.title || data.track.filename) : 'File';
-      self.showToast('Could not play "' + name + '". Moving to next track...', 'error');
+      self.showToast('Could not play "' + name + '"' + (data.message ? ' (' + data.message + ')' : '') + '. Moving to next track...', 'error');
     });
 
     this.state.on('circuitBreakerTripped', function (data) {

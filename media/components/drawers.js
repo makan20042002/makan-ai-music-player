@@ -2434,7 +2434,7 @@
       '      </button>' +
       '    </div>' +
       '    <div style="padding:12px;background:rgba(var(--mk-fg-rgb),0.02);border:1px solid rgba(var(--mk-fg-rgb),0.06);border-radius:6px;font-size:12px;color:var(--mk-text-dim);line-height:1.6;margin-top:4px;">' +
-      '      <strong style="color:var(--mk-text);font-size:13px;display:block;margin-bottom:4px;">MAKAN AI Music Player v1 — Daily Player</strong>' +
+      '      <strong style="color:var(--mk-text);font-size:13px;display:block;margin-bottom:4px;">MAKAN Music Player v1 — Daily Player</strong>' +
       '      <span>Engineered for everyday dependable listening with 3,000–10,000 track libraries.</span>' +
       '      <div style="margin-top:8px;font-size:11px;">' +
       '        <strong>Verified Formats:</strong> MP3, FLAC, WAV, AAC, M4A, OGG Vorbis, Opus.<br>' +

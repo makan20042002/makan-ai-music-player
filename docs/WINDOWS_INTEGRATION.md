@@ -11,7 +11,7 @@ Parts:
   and starts `"<MAKAN exe>" --open-list "<list file>"`.
 - `build/installer.nsh` (set in `package.json` -> `build.nsis.include`) registers, for the current user only:
   the file types mp3, flac, wav, m4a, aac, ogg, opus ("Open with" and Windows Settings -> Default apps),
-  the verb "Play with MAKAN AI Music Player" for those files and for folders, the DLL as the DropTarget,
+  the verb "Play with MAKAN Music Player" for those files and for folders, the DLL as the DropTarget,
   and the path of the app (`HKCU\Software\MAKAN\MusicPlayer\ExePath`). Everything is removed on uninstall.
 - `desktop/cli-args.js` `collectOpenTargets()` understands `--open-list <file>`, files, folders and .m3u/.m3u8 playlists.
   The helper's own list file is deleted after it is read (only files named `makan-open-<digits>-<digits>.lst`).
@@ -21,7 +21,7 @@ Parts:
 - If MAKAN is already running, the single-instance code forwards the list to it.
 
 Windows does not let a program make itself the default player. Once: right-click an mp3 -> Open with -> Choose another app
--> MAKAN AI Music Player -> Always. After that Enter / double-click / right-click on any selection of mp3 files plays them all.
+-> MAKAN Music Player -> Always. After that Enter / double-click / right-click on any selection of mp3 files plays them all.
 On Windows 11 the right-click entry is under "Show more options". Portable builds have no installer, so no Explorer entries.
 
 Tests: `tests/support/test-open-targets.js` (list/folder/playlist handling and queue picking, 3,000 files), 

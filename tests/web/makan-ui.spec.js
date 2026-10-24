@@ -156,7 +156,7 @@ test.describe('MAKAN Music Player Interface', () => {
   });
 
   test('bottom transport dock stays fixed, operates playback and never displays NaN:NaN', async ({ page }) => {
-    await expect(page.locator('#mk-dock-title')).toHaveText('MAKAN AI Music Player');
+    await expect(page.locator('#mk-dock-title')).toHaveText('MAKAN Music Player');
     await expect(page.locator('#mk-dock-artist')).toHaveText('No Track Selected');
 
     const timeCur = await page.locator('#mk-time-cur').textContent();

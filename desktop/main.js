@@ -156,7 +156,7 @@ function createTray() {
   }
   try {
     tray = new Tray(icon);
-    tray.setToolTip('MAKAN AI Music Player');
+    tray.setToolTip('MAKAN Music Player');
     updateTrayMenu();
     tray.on('click', () => {
       if (!win) return;
@@ -196,7 +196,7 @@ function updateTrayMenu() {
     },
     { type: 'separator' },
     {
-      label: 'Show MAKAN AI Music Player',
+      label: 'Show MAKAN Music Player',
       click: () => {
         if (!win) return;
         win.show();
@@ -651,13 +651,15 @@ function registerIpc() {
     const current = readSettings();
     const merged = Object.assign({}, current, newSettings);
     const updated = writeSettings(merged);
-    if (folderWatcher) {
+    // Only act on what really changed: every effect/colour click saves settings, and re-syncing the folder
+    // watchers or the window state each time made the app hang when you clicked quickly.
+    if (folderWatcher && (updated.folderWatching !== false) !== (current.folderWatching !== false)) {
       folderWatcher.setEnabled(updated.folderWatching !== false);
     }
     if (win) {
       if (isMiniPlayer) {
-        win.setAlwaysOnTop(!!updated.miniPlayerAlwaysOnTop);
-      } else {
+        if (!!updated.miniPlayerAlwaysOnTop !== !!current.miniPlayerAlwaysOnTop) win.setAlwaysOnTop(!!updated.miniPlayerAlwaysOnTop);
+      } else if (!!updated.alwaysOnTop !== !!current.alwaysOnTop) {
         win.setAlwaysOnTop(!!updated.alwaysOnTop);
       }
     }
@@ -829,7 +831,7 @@ function createWindow() {
     minWidth: 360,
     frame: false, // no white Windows title bar; the app draws its own top bar and window buttons
     backgroundColor: '#060913',
-    title: 'MAKAN AI Music Player',
+    title: 'MAKAN Music Player',
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -1080,6 +1082,8 @@ if (!gotLock) {
 
     logStartup('Creating main window...');
     createWindow();
+    // Fill the "all songs" answer while the window is still loading, so the first screen does not wait for it.
+    setImmediate(() => { try { db.getTracks({}); } catch (e) { /* the screen will ask again */ } });
     logStartup('Main window created successfully.');
   }).catch((err) => {
     handleFatalStartupError(err);

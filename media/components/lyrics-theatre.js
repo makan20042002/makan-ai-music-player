@@ -61,7 +61,8 @@
     // 3b. Moving colour styles (rainbow and patterns) for the active line, translation font
     var S = window.MakanLyricsStyle;
     var grad = S ? S.gradientCss(st.lyricsColorStyle || 'solid') : null;
-    toggleCls('mk-lyrics-gradmode', !!grad);
+    // Karaoke fills the words with its own colour, so the moving rainbow is not combined with it (the two together froze the app).
+    toggleCls('mk-lyrics-gradmode', !!grad && st.lyricsEffect !== 'karaoke');
     if (grad) {
       setVar('--mk-lyrics-grad', grad);
       setVar('--mk-lyrics-flow-speed', (st.lyricsColorSpeed || 8) + 's');
@@ -81,7 +82,7 @@
 
     // 5. Lyric effect (CSS only; off when the system asks for reduced motion)
     var fx = st.lyricsEffect || 'none';
-    ['none', 'glow', 'wave', 'particle'].forEach(function (n) { toggleCls('mk-fx-' + n, n === fx); });
+    ['none', 'glow', 'wave', 'particle', 'karaoke'].forEach(function (n) { toggleCls('mk-fx-' + n, n === fx); });
 
     // 5. Glow intensity
     setVar('--mk-lyrics-glow-factor', st.lyricsGlowIntensity !== undefined ? st.lyricsGlowIntensity : 1.0);
@@ -487,6 +488,7 @@
 
   /* ---------------- word highlight and tap a word ---------------- */
   MakanLyricsTheatre.prototype._wordsOn = function () {
+    if (this.state && this.state.lyricsEffect === 'karaoke') return true;   // karaoke needs the word spans
     try { return window.localStorage.getItem('makan.lyricWords') !== '0'; } catch (e) { return true; }
   };
 
@@ -509,12 +511,20 @@
       for (var i = 0; i < spans.length; i++) words.push(spans[i].textContent);
       item._wt = WD.timeline(words, parseFloat(item.getAttribute('data-start')), parseFloat(item.getAttribute('data-end')));
     }
-    var idx = WD.activeIndex(item._wt, this.state.currentTime - (this.state.syncOffset || 0));
+    var tNow = this.state.currentTime - (this.state.syncOffset || 0);
+    var idx = WD.activeIndex(item._wt, tNow);
+    var karaoke = this.state.lyricsEffect === 'karaoke';
+    // karaoke: the word being sung fills with colour from left to right (the time of each word is an estimate)
+    if (karaoke && idx >= 0 && spans[idx]) {
+      var wp = WD.wordProgress(item._wt, idx, tNow).toFixed(2);   // 2 decimals is smooth enough and repaints far less
+      if (spans[idx]._wp !== wp) { spans[idx]._wp = wp; spans[idx].style.setProperty('--mk-wp', wp); }
+    }
     if (item._wi === idx) return;
     item._wi = idx;
     for (var k = 0; k < spans.length; k++) {
       spans[k].classList.toggle('mk-w-done', k <= idx);
       spans[k].classList.toggle('mk-w-now', k === idx);
+      if (k !== idx) spans[k].style.removeProperty('--mk-wp');
     }
   };
 
@@ -602,7 +612,14 @@
   MakanLyricsTheatre.prototype.startReactiveLoop = function () {
     var self = this;
     var baseHue = 0;
-    function loop() {
+    var lastTick = 0;
+    function loop(now) {
+      // Do nothing while the window is hidden, and work at most ~30 times a second.
+      if ((typeof document !== 'undefined' && document.hidden) || (now - lastTick < 32)) {
+        requestAnimationFrame(loop);
+        return;
+      }
+      lastTick = now;
       if (self.state.soundReactiveLyrics && self.state.isPlaying && !self.state.reducedMotion) {
         var energy = self.state.audioEnergy || { bass: 0, mid: 0, treble: 0, rms: 0 };
         var activeOrig = self.el ? self.el.querySelector('.mk-lyric-active .mk-lyric-orig') : null;
@@ -673,7 +690,7 @@
     { id: 'glow', label: 'Glow', ico: '<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>' },
     { id: 'wave', label: 'Wave', ico: '<path d="M2 12c2-6 4-6 6 0s4 6 6 0 4-6 6 0"/>' },
     { id: 'particle', label: 'Particles', ico: '<path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z"/><circle cx="19" cy="17" r="1.2"/><circle cx="5" cy="18" r="1"/>' },
-    { id: 'karaoke', label: 'Karaoke · soon', ico: '<path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>', soon: true }
+    { id: 'karaoke', label: 'Karaoke', ico: '<path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>' }
   ];
   var THEME_DOTS = ['#ffffff', '#fff1b8', '#fde047', '#fdba74', '#ff8a65', '#f87171', '#f9a8d4', '#ec4899', '#c084fc', '#818cf8', '#7dd3fc', '#22d3ee', '#5eead4', '#4ade80', '#d9c28f'];
   var THEME_BGS = [
