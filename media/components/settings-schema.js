@@ -185,7 +185,7 @@
     }
     if (raw.visualizerStyle && ['bars', 'mirror', 'area'].includes(raw.visualizerStyle)) res.visualizerStyle = raw.visualizerStyle;
     if (raw.reducedMotion !== undefined) res.reducedMotion = !!raw.reducedMotion;
-    if (['dark', 'light', 'auto'].includes(raw.appTheme)) res.appTheme = raw.appTheme;
+    if (['dark', 'light', 'auto', 'violet', 'gold', 'ocean', 'mint', 'peach', 'sky'].includes(raw.appTheme)) res.appTheme = raw.appTheme;
 
     const validLyricModes = ['original', 'translation', 'bilingual', 'split'];
     if (raw.lyricMode && validLyricModes.includes(raw.lyricMode)) {

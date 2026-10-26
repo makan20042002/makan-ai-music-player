@@ -15,6 +15,7 @@ Made by Makan — https://makanlab.tech/ — contact: makan20042002@gmail.com
   select thousands of files in Explorer and press Enter to open them all (like Windows Media Player),
   taskbar Previous / Play / Next buttons
 - Synced lyrics (LRC / SRT / VTT / ASS) with a karaoke effect: the words fill with colour as they are sung (word timing is estimated from the line timing)
+- Six colour looks (Settings → Color Theme): Amethyst, Gold Noir, Ocean Night (dark) and Mint Leaf, Sunrise Peach, Sky Glass (light), plus the plain Dark / Light / Automatic modes
 
 ## Download
 Get the installer (`MAKAN-Music-Player-v1-setup.exe`) or the portable file (`MAKAN-Music-Player-v1-portable.exe`)

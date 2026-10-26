@@ -51,7 +51,7 @@ test('setting appTheme: default dark, validated', () => {
 test('wiring: script order, top-bar button, Settings select', () => {
   const html = read('index.html');
   assert.ok(html.indexOf('components/theme.js') > 0 && html.indexOf('components/theme.js') < html.indexOf('components/settings-schema.js'));
-  assert.ok(read('media/components/top-bar.js').indexOf('mk-top-theme-btn') > 0);
+  assert.ok(read('media/components/top-bar.js').indexOf('mk-top-theme-btn') < 0, 'the dark/light button was removed on purpose: looks are chosen in Settings');
   assert.ok(read('media/components/drawers.js').indexOf('mk-set-app-theme') > 0);
 });
 test('split lyrics view: tab, setting value, rendering, css', () => {

@@ -2133,6 +2133,7 @@
 
   MakanDrawers.prototype._renderSettingsPanes = function () {
     var state = this.state;
+    var curSkin = window.MakanTheme ? window.MakanTheme.skinOfMode(state.appTheme) : "violet";
     var html = '';
 
     // Pane 1: Library
@@ -2335,10 +2336,21 @@
       '    <label style="display:flex;flex-direction:column;gap:4px;font-size:12.5px;">' +
       '      <span>Color Theme:</span>' +
       '      <select class="mk-select" id="mk-set-app-theme">' +
-      '        <option value="dark"' + (state.appTheme === 'dark' ? ' selected' : '') + '>Dark</option>' +
-      '        <option value="light"' + (state.appTheme === 'light' ? ' selected' : '') + '>Light (Platinum Blue)</option>' +
-      '        <option value="auto"' + (state.appTheme === 'auto' ? ' selected' : '') + '>Automatic (follow Windows)</option>' +
+      '        <optgroup label="Dark styles">' +
+      '          <option value="violet"' + (curSkin === 'violet' ? ' selected' : '') + '>Amethyst (violet)</option>' +
+      '          <option value="gold"' + (curSkin === 'gold' ? ' selected' : '') + '>Gold Noir</option>' +
+      '          <option value="ocean"' + (curSkin === 'ocean' ? ' selected' : '') + '>Ocean Night (blue)</option>' +
+      '        </optgroup>' +
+      '        <optgroup label="Light styles">' +
+      '          <option value="mint"' + (curSkin === 'mint' ? ' selected' : '') + '>Mint Leaf (green)</option>' +
+      '          <option value="peach"' + (curSkin === 'peach' ? ' selected' : '') + '>Sunrise Peach</option>' +
+      '          <option value="sky"' + (curSkin === 'sky' ? ' selected' : '') + '>Sky Glass (light blue)</option>' +
+      '        </optgroup>' +
       '      </select>' +
+      '    </label>' +
+      '    <label style="display:flex;align-items:center;gap:8px;font-size:12.5px;">' +
+      '      <input type="checkbox" id="mk-set-live-bg"' + (window.MakanTheme && window.MakanTheme.getLive() ? ' checked' : '') + '>' +
+      '      <span>Live background (slow moving glow while music plays)</span>' +
       '    </label>' +
       '    <label style="display:flex;flex-direction:column;gap:4px;font-size:12.5px;">' +
       '      <span>Visualizer Theme:</span>' +
@@ -2506,7 +2518,7 @@
 
       var visTheme1 = self.el.querySelector('#mk-set-vis-theme');
       var appThemeSel = self.el.querySelector('#mk-set-app-theme');
-      if (appThemeSel) appThemeSel.value = s.appTheme || 'dark';
+      if (appThemeSel) appThemeSel.value = window.MakanTheme ? window.MakanTheme.skinOfMode(s.appTheme || 'dark') : (s.appTheme || 'violet');
       if (visTheme1) visTheme1.value = s.visualizerTheme || 'cyan';
       var visTheme2 = self.el.querySelector('#mk-vis-theme-sel');
       if (visTheme2) visTheme2.value = s.visualizerTheme || 'cyan';
@@ -3891,13 +3903,16 @@
     // Colour theme (dark / light Platinum Blue / automatic)
     var appThemeSel2 = this.el.querySelector('#mk-set-app-theme');
     if (appThemeSel2) {
-      if (window.MakanTheme) appThemeSel2.value = window.MakanTheme.getMode();
+      if (window.MakanTheme) appThemeSel2.value = window.MakanTheme.getSkin();
       appThemeSel2.addEventListener('change', function (e) {
         self.state.appTheme = e.target.value;
         if (window.MakanTheme) window.MakanTheme.apply(e.target.value);
         if (window.MakanDesktop && window.MakanDesktop.setSettings) window.MakanDesktop.setSettings({ appTheme: e.target.value });
       });
     }
+
+    var liveBgChk = this.el.querySelector('#mk-set-live-bg');
+    if (liveBgChk) liveBgChk.addEventListener('change', function (e) { if (window.MakanTheme) window.MakanTheme.setLive(e.target.checked); });
 
     // Color style (solid / rainbow / patterns)
     var fxSel2 = this.el.querySelector('#mk-lyrics-effect-sel');

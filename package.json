@@ -2,10 +2,10 @@
   "name": "makan-music-player",
   "version": "1.0.0",
   "private": true,
-  "description": "MAKAN Music Player - A fast music player for large libraries",
+  "description": "MAKAN Music Player",
   "scripts": {
     "start": "node tests/support/static-server.js",
-    "test:unit": "node tests/support/test-playback-controller.js && node tests/support/test-lyrics.js && node tests/support/test-cli-args.js && node tests/support/test-open-targets.js && node tests/support/test-sleep-timer.js && node tests/support/test-thumbar.js && node tests/support/test-open-helper.js",
+    "test:unit": "node tests/support/test-playback-controller.js && node tests/support/test-lyrics.js && node tests/support/test-cli-args.js && node tests/support/test-open-targets.js && node tests/support/test-sleep-timer.js && node tests/support/test-thumbar.js && node tests/support/test-open-helper.js && node tests/support/test-skins.js && node tests/support/test-performance.js",
     "test:db-scanner": "node tests/support/test-db.js && node tests/support/test-scanner.js && node tests/support/test-corrupt-files.js && node tests/support/test-virtualization.js && node tests/support/test-m3u.js && node tests/support/test-formats.js && node tests/support/test-large-library.js && node tests/support/test-position-flush.js && node tests/support/test-media-session.js && node tests/support/test-release-integrity.js",
     "test:lyrics": "node tests/support/test-lyrics-ai.js && node tests/support/test-lyrics-style.js && node tests/support/test-lyrics-translate.js",
     "test:dsp": "node tests/support/test-potplayer-sound.js && node tests/support/test-dsp-engine.js",

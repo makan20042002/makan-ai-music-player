@@ -2865,3 +2865,184 @@ body.mk-mini-active {
    Before, every visible line repainted all the time, which made the app hang. */
 .mk-lyrics-stage-view.mk-lyrics-gradmode .mk-lyric-item:not(.mk-lyric-active) .mk-lyric-orig,
 .mk-lyrics-stage-view.mk-lyrics-gradmode .mk-lyric-item:not(.mk-lyric-active) .mk-lyric-trans { animation: none; filter: none; }
+
+/* ==========================================================================
+   Named looks ("skins") - chosen in Settings > Color Theme. Each sets data-skin on <html> next to
+   data-theme (dark or light), so every rule above still applies; only colours change.
+   Dark looks: violet (Amethyst), gold (Gold Noir), ocean (Ocean Night).
+   Light looks: mint (Mint Leaf), peach (Sunrise Peach), sky (Sky Glass).
+   ========================================================================== */
+:root[data-skin="violet"] {
+  --mk-bg-root: #0a0516; --mk-bg-panel: #120a24; --mk-bg-card: #160d2c; --mk-bg-elevated: #1d1238; --mk-bg-dock: #0c0719;
+  --mk-menu-bg: #150c2a; --mk-option-bg: #150c2a; --mk-art-bg: #170d2e; --mk-lyric-bg-dark: #0d0719;
+  --mk-accent-cyan: #c084fc; --mk-accent-blue: #8b5cf6; --mk-accent-violet: #a78bfa; --mk-accent-magenta: #e879f9;
+  --mk-accent-rgb: 168, 85, 247; --mk-blue-rgb: 139, 92, 246; --mk-alt-accent: #c084fc; --mk-alt-accent-rgb: 192, 132, 252;
+  --mk-border-focus: #c084fc; --mk-btn-hover: #7c3aed;
+  --mk-brand-grad: linear-gradient(135deg, #7c3aed 0%, #c026d3 100%); --mk-skin-solid: #a855f7; --mk-champagne: #d8b4fe;
+  --mk-on-accent: #ffffff; --mk-play-bg: rgba(168, 85, 247, 0.12); --mk-play-fg: #ffffff; --mk-play-ring: #a855f7;
+  --mk-world-bg: radial-gradient(1100px 700px at 50% 0, #1d0f3a, #0a0516 70%); --mk-app-bg: var(--mk-world-bg);
+  --mk-topbar-bg: rgba(14, 7, 28, 0.85);
+  --mk-glass-bg: linear-gradient(160deg, rgba(168,85,247,0.13), rgba(255,255,255,0.025) 50%, rgba(236,72,153,0.07));
+  --mk-skin-blobs:
+    radial-gradient(560px 560px at 6% 4%, rgba(147,51,234,0.50), transparent 70%),
+    radial-gradient(520px 520px at 98% 10%, rgba(236,72,153,0.26), transparent 70%),
+    radial-gradient(600px 480px at 45% 110%, rgba(109,40,217,0.40), transparent 70%);
+}
+:root[data-skin="gold"] {
+  --mk-bg-root: #090806; --mk-bg-panel: #12100c; --mk-bg-card: #17140e; --mk-bg-elevated: #1f1b13; --mk-bg-dock: #0b0a07;
+  --mk-menu-bg: #17140e; --mk-option-bg: #17140e; --mk-art-bg: #1a160f; --mk-lyric-bg-dark: #0c0a07;
+  --mk-accent-cyan: #e3c27a; --mk-accent-blue: #c9a45c; --mk-accent-violet: #d9b66a; --mk-accent-magenta: #e8b96a;
+  --mk-accent-rgb: 217, 178, 100; --mk-blue-rgb: 201, 164, 92; --mk-alt-accent: #e3c27a; --mk-alt-accent-rgb: 227, 194, 122;
+  --mk-border-focus: #e3c27a; --mk-btn-hover: #b98f45;
+  --mk-brand-grad: linear-gradient(135deg, #b8893b 0%, #ecd197 100%); --mk-skin-solid: #c9a45c; --mk-champagne: #ecd197;
+  --mk-on-accent: #1d1406; --mk-play-bg: rgba(217, 178, 100, 0.10); --mk-play-fg: #f3dfae; --mk-play-ring: #d9b264;
+  --mk-world-bg: radial-gradient(1100px 700px at 50% 0, #1d1710, #090806 70%); --mk-app-bg: var(--mk-world-bg);
+  --mk-topbar-bg: rgba(12, 10, 7, 0.88);
+  --mk-glass-bg: linear-gradient(160deg, rgba(217,178,100,0.10), rgba(255,255,255,0.02) 50%, rgba(217,178,100,0.05));
+  --mk-skin-blobs:
+    radial-gradient(620px 300px at 62% 6%, rgba(217,178,100,0.30), transparent 70%),
+    radial-gradient(520px 420px at 4% 8%, rgba(120,90,40,0.34), transparent 70%),
+    radial-gradient(640px 360px at 50% 108%, rgba(184,137,59,0.22), transparent 70%);
+}
+:root[data-skin="ocean"] {
+  --mk-bg-root: #030a1c; --mk-bg-panel: #07122a; --mk-bg-card: #0a1733; --mk-bg-elevated: #0f1f42; --mk-bg-dock: #040c20;
+  --mk-menu-bg: #0a1733; --mk-option-bg: #0a1733; --mk-art-bg: #0b1836; --mk-lyric-bg-dark: #050d22;
+  --mk-accent-cyan: #38bdf8; --mk-accent-blue: #2f7bff; --mk-accent-violet: #6d8dff; --mk-accent-magenta: #7aa7ff;
+  --mk-accent-rgb: 56, 160, 255; --mk-blue-rgb: 47, 123, 255; --mk-alt-accent: #38bdf8; --mk-alt-accent-rgb: 56, 189, 248;
+  --mk-border-focus: #38bdf8; --mk-btn-hover: #1d63e0;
+  --mk-brand-grad: linear-gradient(135deg, #1d63ff 0%, #2fa4ff 100%); --mk-skin-solid: #2f7bff; --mk-champagne: #7cc4ff;
+  --mk-on-accent: #ffffff; --mk-play-bg: rgba(47, 123, 255, 0.12); --mk-play-fg: #ffffff; --mk-play-ring: #38a0ff;
+  --mk-world-bg: radial-gradient(1100px 700px at 50% 0, #0a2057, #030a1c 70%); --mk-app-bg: var(--mk-world-bg);
+  --mk-topbar-bg: rgba(5, 12, 30, 0.85);
+  --mk-glass-bg: linear-gradient(160deg, rgba(56,160,255,0.13), rgba(255,255,255,0.025) 50%, rgba(56,189,248,0.06));
+  --mk-skin-blobs:
+    radial-gradient(560px 560px at 6% 4%, rgba(37,99,235,0.46), transparent 70%),
+    radial-gradient(520px 520px at 98% 10%, rgba(14,165,233,0.30), transparent 70%),
+    radial-gradient(600px 480px at 45% 110%, rgba(30,64,175,0.42), transparent 70%);
+}
+:root[data-skin="mint"] {
+  --mk-bg-root: #e3f6ec; --mk-bg-panel: #eefaf4; --mk-bg-card: #ffffff; --mk-bg-elevated: #d3efe1; --mk-bg-dock: #eefaf4;
+  --mk-menu-bg: #ffffff; --mk-option-bg: #ffffff; --mk-art-bg: #cdeedd; --mk-lyric-bg-dark: #e3f6ec;
+  --mk-accent-cyan: #12a06a; --mk-accent-blue: #14a36b; --mk-accent-violet: #2bb585; --mk-accent-magenta: #d1488a;
+  --mk-accent-rgb: 20, 163, 107; --mk-blue-rgb: 20, 163, 107; --mk-alt-accent: #0c7f52; --mk-alt-accent-rgb: 12, 127, 82;
+  --mk-border-focus: #14a36b; --mk-btn-hover: #0c8a5a;
+  --mk-brand-grad: linear-gradient(135deg, #0f9a63 0%, #34c68e 100%); --mk-skin-solid: #14a36b; --mk-champagne: #0f9a63;
+  --mk-on-accent: #ffffff; --mk-play-bg: #14a36b; --mk-play-fg: #ffffff; --mk-play-ring: #14a36b;
+  --mk-text-main: #12372b; --mk-text: #12372b; --mk-text-strong: #08241b; --mk-text-muted: #47705f; --mk-text-dim: #7a9a8c;
+  --mk-fg-rgb: 18, 55, 43; --mk-shadow-rgb: 40, 110, 80; --mk-lyric-trans-default: #2f5c4b;
+  --mk-world-bg: radial-gradient(1100px 700px at 50% 0, #c9f0dc, #e3f6ec 70%); --mk-app-bg: var(--mk-world-bg);
+  --mk-topbar-bg: rgba(238, 250, 244, 0.92);
+  --mk-glass-bg: linear-gradient(160deg, rgba(255,255,255,0.80), rgba(255,255,255,0.50) 55%, rgba(220,247,234,0.65));
+  --mk-panel-fill: rgba(255,255,255,0.55);
+  --mk-skin-blobs:
+    radial-gradient(520px 520px at 6% 4%, rgba(52,198,142,0.30), transparent 70%),
+    radial-gradient(480px 480px at 96% 8%, rgba(16,185,129,0.22), transparent 70%),
+    radial-gradient(560px 460px at 40% 108%, rgba(134,239,172,0.30), transparent 70%);
+}
+:root[data-skin="peach"] {
+  --mk-bg-root: #fdeede; --mk-bg-panel: #fff6ec; --mk-bg-card: #ffffff; --mk-bg-elevated: #fbe1cb; --mk-bg-dock: #fff6ec;
+  --mk-menu-bg: #ffffff; --mk-option-bg: #ffffff; --mk-art-bg: #fbdcc3; --mk-lyric-bg-dark: #fdeede;
+  --mk-accent-cyan: #e8651f; --mk-accent-blue: #f07a36; --mk-accent-violet: #f08a4b; --mk-accent-magenta: #d6457a;
+  --mk-accent-rgb: 240, 122, 54; --mk-blue-rgb: 240, 122, 54; --mk-alt-accent: #c8531a; --mk-alt-accent-rgb: 200, 83, 26;
+  --mk-border-focus: #f07a36; --mk-btn-hover: #d9631f;
+  --mk-brand-grad: linear-gradient(135deg, #ee6a24 0%, #f7a263 100%); --mk-skin-solid: #f07a36; --mk-champagne: #e8651f;
+  --mk-on-accent: #ffffff; --mk-play-bg: #f07a36; --mk-play-fg: #ffffff; --mk-play-ring: #f07a36;
+  --mk-text-main: #3a2314; --mk-text: #3a2314; --mk-text-strong: #24140a; --mk-text-muted: #7d5a44; --mk-text-dim: #a68a77;
+  --mk-fg-rgb: 58, 35, 20; --mk-shadow-rgb: 140, 80, 40; --mk-lyric-trans-default: #6b4733;
+  --mk-world-bg: radial-gradient(1100px 700px at 50% 0, #ffe3c9, #fdeede 70%); --mk-app-bg: var(--mk-world-bg);
+  --mk-topbar-bg: rgba(255, 246, 236, 0.92);
+  --mk-glass-bg: linear-gradient(160deg, rgba(255,255,255,0.80), rgba(255,255,255,0.50) 55%, rgba(255,232,210,0.65));
+  --mk-panel-fill: rgba(255,255,255,0.55);
+  --mk-skin-blobs:
+    radial-gradient(520px 520px at 6% 4%, rgba(251,146,60,0.28), transparent 70%),
+    radial-gradient(480px 480px at 96% 8%, rgba(253,186,116,0.30), transparent 70%),
+    radial-gradient(560px 460px at 40% 108%, rgba(244,114,182,0.18), transparent 70%);
+}
+:root[data-skin="sky"] {
+  --mk-bg-root: #e1eeff; --mk-bg-panel: #eff6ff; --mk-bg-card: #ffffff; --mk-bg-elevated: #d2e4fb; --mk-bg-dock: #eff6ff;
+  --mk-accent-cyan: #2563eb; --mk-accent-blue: #2f7bff; --mk-accent-violet: #6366f1; --mk-accent-magenta: #c2307a;
+  --mk-accent-rgb: 47, 123, 255; --mk-blue-rgb: 47, 123, 255; --mk-alt-accent: #1d4ed8; --mk-alt-accent-rgb: 29, 78, 216;
+  --mk-border-focus: #2f7bff; --mk-btn-hover: #1f63e6;
+  --mk-brand-grad: linear-gradient(135deg, #1f6bff 0%, #4a9bff 100%); --mk-skin-solid: #2f7bff; --mk-champagne: #2563eb;
+  --mk-on-accent: #ffffff; --mk-play-bg: #2f7bff; --mk-play-fg: #ffffff; --mk-play-ring: #2f7bff;
+  --mk-world-bg: radial-gradient(1100px 700px at 50% 0, #c6dcff, #e1eeff 70%); --mk-app-bg: var(--mk-world-bg);
+  --mk-topbar-bg: rgba(239, 246, 255, 0.92);
+  --mk-glass-bg: linear-gradient(160deg, rgba(255,255,255,0.82), rgba(255,255,255,0.52) 55%, rgba(214,230,255,0.66));
+  --mk-skin-blobs:
+    radial-gradient(520px 520px at 6% 4%, rgba(99,102,241,0.20), transparent 70%),
+    radial-gradient(480px 480px at 96% 8%, rgba(56,189,248,0.26), transparent 70%),
+    radial-gradient(560px 460px at 40% 108%, rgba(147,197,253,0.34), transparent 70%);
+}
+
+/* what every skin shares: soft colour blobs, brand-coloured buttons / switches / selected menu row, play button, plain brand mark */
+:root[data-skin] .mk-app-root { background: var(--mk-world-bg) !important; }
+:root[data-skin] .mk-app-root::before { background: var(--mk-skin-blobs); }
+:root[data-skin] .mk-ai-btn { background: var(--mk-brand-grad) !important; color: var(--mk-on-accent) !important; }
+:root[data-skin] .mk-switch.mk-on { background: var(--mk-skin-solid); }
+:root[data-skin][data-theme] .mk-library-panel .mk-nav-item.mk-nav-active,
+:root[data-skin][data-theme] .mk-library-panel .mk-nav-item.mk-nav-active:hover { background: var(--mk-brand-grad); color: var(--mk-on-accent); }
+:root[data-skin][data-theme] .mk-play-circle-btn { background: var(--mk-play-bg); color: var(--mk-play-fg); border: 2px solid var(--mk-play-ring); box-shadow: 0 10px 26px rgba(var(--mk-shadow-rgb), 0.35); }
+:root[data-skin] .mk-brand-music { color: var(--mk-accent-cyan); }
+/* the brand mark is a coloured tile now, so it no longer needs the dark chip on light looks */
+:root[data-theme="light"] .mk-brand { background: none; padding: 0; box-shadow: none; }
+/* the soft scene behind the song title follows each look (it was purple for every look) */
+:root[data-skin="gold"] .mk-stage-scene-fallback { background: linear-gradient(180deg, rgba(70,52,22,0.85) 0%, rgba(40,30,14,0.6) 35%, rgba(18,14,8,0.3) 60%, rgba(6,5,3,0) 72%), radial-gradient(900px 300px at 62% 0, rgba(217,178,100,0.30), transparent 70%); }
+:root[data-skin="ocean"] .mk-stage-scene-fallback { background: linear-gradient(180deg, rgba(10,40,110,0.85) 0%, rgba(14,60,150,0.55) 35%, rgba(6,24,70,0.30) 60%, rgba(3,10,28,0) 72%), radial-gradient(900px 300px at 50% 0, rgba(56,160,255,0.30), transparent 70%); }
+:root[data-skin="mint"] .mk-stage-scene-fallback { background: linear-gradient(180deg, rgba(167,236,200,0.55) 0%, rgba(205,244,224,0.45) 35%, rgba(228,248,238,0.30) 60%, rgba(255,255,255,0) 72%); }
+:root[data-skin="peach"] .mk-stage-scene-fallback { background: linear-gradient(180deg, rgba(255,200,160,0.60) 0%, rgba(255,222,196,0.45) 35%, rgba(255,238,222,0.30) 60%, rgba(255,255,255,0) 72%); }
+:root[data-skin="sky"] .mk-stage-scene-fallback { background: linear-gradient(180deg, rgba(150,200,255,0.55) 0%, rgba(196,222,255,0.45) 35%, rgba(222,236,255,0.30) 60%, rgba(255,255,255,0) 72%); }
+:root[data-skin="mint"] .mk-stage-scene-shade { background: linear-gradient(180deg, rgba(255,255,255,0), rgba(227,246,236,0.55) 55%, rgba(227,246,236,0.9)); }
+:root[data-skin="peach"] .mk-stage-scene-shade { background: linear-gradient(180deg, rgba(255,255,255,0), rgba(253,238,222,0.55) 55%, rgba(253,238,222,0.9)); }
+:root[data-skin="sky"] .mk-stage-scene-shade { background: linear-gradient(180deg, rgba(255,255,255,0), rgba(225,238,255,0.55) 55%, rgba(225,238,255,0.9)); }
+
+/* ==========================================================================
+   Glass polish for the six looks: brighter glass edges, a soft top sheen, a little inner colour,
+   and stronger colour behind the panels so the frosted blur shows. All static (no extra work while playing).
+   ========================================================================== */
+:root[data-skin] .mk-topbar, :root[data-skin] .mk-library-panel, :root[data-skin] .mk-player-stage,
+:root[data-skin] .mk-lyrics-theatre, :root[data-skin] .mk-transport-dock { -webkit-backdrop-filter: blur(36px) saturate(180%); backdrop-filter: blur(36px) saturate(180%); }
+:root[data-skin="violet"] {
+  --mk-glass-bg: linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0) 24%), linear-gradient(160deg, rgba(168,85,247,0.16), rgba(255,255,255,0.025) 50%, rgba(236,72,153,0.09));
+  --mk-glass-edge: linear-gradient(150deg, rgba(255,255,255,0.60), rgba(255,255,255,0.08) 28%, rgba(168,85,247,0.12) 70%, rgba(236,72,153,0.70));
+  --mk-glass-shadow: inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 60px rgba(168,85,247,0.08), 0 30px 70px rgba(0,0,0,0.55);
+  --mk-skin-blobs: radial-gradient(620px 620px at 4% 2%, rgba(147,51,234,0.62), transparent 70%), radial-gradient(560px 560px at 99% 8%, rgba(236,72,153,0.38), transparent 70%), radial-gradient(640px 520px at 45% 112%, rgba(109,40,217,0.55), transparent 70%), radial-gradient(420px 420px at 70% 45%, rgba(99,102,241,0.20), transparent 70%);
+}
+:root[data-skin="gold"] {
+  --mk-glass-bg: linear-gradient(180deg, rgba(255,240,200,0.11), rgba(255,255,255,0) 24%), linear-gradient(160deg, rgba(217,178,100,0.13), rgba(255,255,255,0.02) 50%, rgba(217,178,100,0.07));
+  --mk-glass-edge: linear-gradient(150deg, rgba(255,240,200,0.65), rgba(255,255,255,0.07) 28%, rgba(217,178,100,0.10) 70%, rgba(236,209,151,0.80));
+  --mk-glass-shadow: inset 0 1px 0 rgba(255,240,200,0.30), inset 0 0 60px rgba(217,178,100,0.07), 0 30px 70px rgba(0,0,0,0.6);
+  --mk-skin-blobs: radial-gradient(700px 320px at 62% 4%, rgba(236,209,151,0.42), transparent 70%), radial-gradient(560px 460px at 2% 6%, rgba(150,110,45,0.46), transparent 70%), radial-gradient(700px 380px at 50% 110%, rgba(184,137,59,0.32), transparent 70%), radial-gradient(380px 380px at 92% 60%, rgba(217,178,100,0.16), transparent 70%);
+}
+:root[data-skin="ocean"] {
+  --mk-glass-bg: linear-gradient(180deg, rgba(190,225,255,0.12), rgba(255,255,255,0) 24%), linear-gradient(160deg, rgba(56,160,255,0.17), rgba(255,255,255,0.025) 50%, rgba(56,189,248,0.09));
+  --mk-glass-edge: linear-gradient(150deg, rgba(200,230,255,0.62), rgba(255,255,255,0.08) 28%, rgba(56,160,255,0.12) 70%, rgba(56,189,248,0.80));
+  --mk-glass-shadow: inset 0 1px 0 rgba(200,230,255,0.32), inset 0 0 60px rgba(56,160,255,0.09), 0 30px 70px rgba(0,0,0,0.58);
+  --mk-skin-blobs: radial-gradient(620px 620px at 4% 2%, rgba(37,99,235,0.60), transparent 70%), radial-gradient(560px 560px at 99% 8%, rgba(14,165,233,0.40), transparent 70%), radial-gradient(640px 520px at 45% 112%, rgba(30,64,175,0.58), transparent 70%), radial-gradient(420px 420px at 70% 45%, rgba(56,189,248,0.16), transparent 70%);
+}
+:root[data-skin="mint"] {
+  --mk-glass-bg: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0) 30%), linear-gradient(160deg, rgba(255,255,255,0.74), rgba(255,255,255,0.46) 55%, rgba(206,245,226,0.62));
+  --mk-glass-edge: linear-gradient(150deg, rgba(255,255,255,1), rgba(255,255,255,0.45) 32%, rgba(255,255,255,0.40) 68%, rgba(20,163,107,0.50));
+  --mk-glass-shadow: inset 0 1px 0 rgba(255,255,255,0.95), inset 0 0 50px rgba(52,198,142,0.10), 0 24px 50px rgba(40,110,80,0.20);
+  --mk-skin-blobs: radial-gradient(560px 560px at 4% 2%, rgba(52,198,142,0.42), transparent 70%), radial-gradient(520px 520px at 98% 8%, rgba(16,185,129,0.30), transparent 70%), radial-gradient(600px 480px at 40% 110%, rgba(134,239,172,0.42), transparent 70%), radial-gradient(380px 380px at 75% 50%, rgba(45,212,191,0.16), transparent 70%);
+}
+:root[data-skin="peach"] {
+  --mk-glass-bg: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0) 30%), linear-gradient(160deg, rgba(255,255,255,0.74), rgba(255,255,255,0.46) 55%, rgba(255,228,204,0.62));
+  --mk-glass-edge: linear-gradient(150deg, rgba(255,255,255,1), rgba(255,255,255,0.45) 32%, rgba(255,255,255,0.40) 68%, rgba(240,122,54,0.50));
+  --mk-glass-shadow: inset 0 1px 0 rgba(255,255,255,0.95), inset 0 0 50px rgba(251,146,60,0.10), 0 24px 50px rgba(140,80,40,0.20);
+  --mk-skin-blobs: radial-gradient(560px 560px at 4% 2%, rgba(251,146,60,0.40), transparent 70%), radial-gradient(520px 520px at 98% 8%, rgba(253,186,116,0.42), transparent 70%), radial-gradient(600px 480px at 40% 110%, rgba(244,114,182,0.26), transparent 70%), radial-gradient(380px 380px at 75% 50%, rgba(252,211,77,0.18), transparent 70%);
+}
+:root[data-skin="sky"] {
+  --mk-glass-bg: linear-gradient(180deg, rgba(255,255,255,0.58), rgba(255,255,255,0) 30%), linear-gradient(160deg, rgba(255,255,255,0.76), rgba(255,255,255,0.48) 55%, rgba(206,226,255,0.64));
+  --mk-glass-edge: linear-gradient(150deg, rgba(255,255,255,1), rgba(255,255,255,0.45) 32%, rgba(255,255,255,0.40) 68%, rgba(47,123,255,0.50));
+  --mk-glass-shadow: inset 0 1px 0 rgba(255,255,255,0.95), inset 0 0 50px rgba(99,155,255,0.10), 0 24px 50px rgba(40,70,140,0.20);
+  --mk-skin-blobs: radial-gradient(560px 560px at 4% 2%, rgba(99,102,241,0.30), transparent 70%), radial-gradient(520px 520px at 98% 8%, rgba(56,189,248,0.40), transparent 70%), radial-gradient(600px 480px at 40% 110%, rgba(147,197,253,0.50), transparent 70%), radial-gradient(380px 380px at 75% 50%, rgba(125,211,252,0.20), transparent 70%);
+}
+/* the selected tab and the buttons use the colour of the look */
+:root[data-skin] .mk-tab-btn.mk-tab-active { background: var(--mk-brand-grad) !important; color: var(--mk-on-accent) !important; }
+
+/* Optional "Live background" (Settings > Color Theme, off by default): the colour glow drifts very slowly.
+   It stands still when the music is paused, the window is hidden, or reduced motion is on. */
+@keyframes mk-skin-drift { from { transform: translate3d(-2%, -1.5%, 0) scale(1.02); } to { transform: translate3d(2%, 1.5%, 0) scale(1.08); } }
+:root.mk-live-bg[data-skin] .mk-app-root::before { inset: -6%; will-change: transform; animation: mk-skin-drift 26s ease-in-out infinite alternate; }
+:root.mk-live-bg.mk-bg-still[data-skin] .mk-app-root::before { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { :root.mk-live-bg[data-skin] .mk-app-root::before { animation: none; } }

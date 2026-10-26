@@ -39,7 +39,6 @@
       '    </div>' +
       '  </div>' +
       '  <div class="mk-topbar-right">' +
-      '    <button type="button" class="mk-top-btn mk-theme-btn" id="mk-top-theme-btn" title="Switch dark / light theme"></button>' +
       '    <button type="button" class="mk-top-btn mk-vis-btn" id="mk-top-vis-btn" title="Toggle Visualizer Theme">' +
       '      ' + icons.visualizer() +
       '    </button>' +
@@ -92,26 +91,6 @@
           e.preventDefault();
           self.state.emit('searchPlayResult');
         }
-      });
-    }
-
-    // Dark / light theme button (Platinum Blue light theme)
-    var themeBtn = this.el.querySelector('#mk-top-theme-btn');
-    if (themeBtn && window.MakanTheme) {
-      var paintBtn = function () {
-        var light = window.MakanTheme.current() === 'light';
-        themeBtn.innerHTML = light ? window.MakanIcons.moon() : window.MakanIcons.sun();
-        themeBtn.title = light ? 'Switch to dark theme' : 'Switch to light theme (Platinum Blue)';
-      };
-      paintBtn();
-      window.MakanTheme.onChange(paintBtn);
-      themeBtn.addEventListener('click', function () {
-        window.MakanTheme.toggle();
-        var m = window.MakanTheme.getMode();
-        self.state.appTheme = m;
-        if (window.MakanDesktop && window.MakanDesktop.setSettings) window.MakanDesktop.setSettings({ appTheme: m });
-        var sel = document.querySelector('#mk-set-app-theme');
-        if (sel) sel.value = m;
       });
     }
 

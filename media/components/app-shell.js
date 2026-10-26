@@ -301,6 +301,7 @@
     this.state.on('trackChanged', function (data) { updateMiniTrack(data.track); });
     this.state.on('playStateChanged', function (data) {
       var isPlaying = !!(data && data.isPlaying);
+      if (window.MakanTheme && window.MakanTheme.setStill) window.MakanTheme.setStill(!isPlaying);
       if (playBtn) playBtn.innerHTML = isPlaying ? window.MakanIcons.pause() : window.MakanIcons.play();
     });
     this.state.on('timeUpdated', function (data) {
